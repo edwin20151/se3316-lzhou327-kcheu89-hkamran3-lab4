@@ -1,0 +1,30 @@
+{
+  "name": "se3316-lzhou327-kcheu89-hkamran3-lab4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "authServer.js",
+  "scripts": {
+    "start": "nodemon authServer.js",
+    "start2": "nodemon unauthServer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edwin20151/se3316-lzhou327-kcheu89-hkamran3-lab4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edwin20151/se3316-lzhou327-kcheu89-hkamran3-lab4/issues"
+  },
+  "homepage": "https://github.com/edwin20151/se3316-lzhou327-kcheu89-hkamran3-lab4#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
