@@ -11,14 +11,13 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', ()=> console.log('connected to database'));
 
-app.use(express.json())
 
 
 const accountRoute = require('./accountroute');
 app.use('/account', accountRoute);
 
 
-const user = [
+/*const user = [
     {
         name: 'edwin',
         title : 'user 1'
@@ -47,5 +46,5 @@ app.post('/login', (req, res)=>{
 
 function generateAccessToken(user){
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn : '15s'})
-}
+}*/
 app.listen(3000)
