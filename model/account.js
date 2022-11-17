@@ -7,7 +7,7 @@ const AccountSchema = new Schema({
         type:String,
          required:true
     },
-    Passsword:{
+    passsword:{
         type:String,
         required : true
     },
