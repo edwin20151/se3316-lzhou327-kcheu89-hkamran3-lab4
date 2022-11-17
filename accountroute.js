@@ -34,8 +34,11 @@ router.post('/login', async (req, res)=>{
         user.forEach(async e =>{
             if(await bcrypt.compare(req.body.password, e.password) && e.account == true){
             res.status(200).send('ok')}
+            else if(e.account == false){
+                res.status(401).send('please contact the site administrator')
+            }
             else{
-                res.status(404).send('not allowed ')
+                res.status(404).send('wrong password')
                }
          })
          
@@ -70,6 +73,26 @@ router.post('/login', async (req, res)=>{
         }
     
    })
+
+   router.patch('/:username',async (req, res)=>{
+    try{
+    const user = await Account.find({username : req.params.username}).count({sent_at: null});
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    if(user>0){
+    const updatedAccount = await Account.updateMany({username : req.params.username},
+    { $set:{password : hashedPassword }}
+    );
+
+    res.json(updatedAccount);
+    }
+    else{
+        res.status(404).send('not existed')
+    }
+    }catch(err){
+        res.status(401).json({message:err});
+    }
+});
 
 
 module.exports= router; 
