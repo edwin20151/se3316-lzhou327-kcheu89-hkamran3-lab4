@@ -25,12 +25,14 @@ router.post('/login', async (req, res)=>{
 
 
         const user = await Account.find({username : req.body.username})
-        const count = await Account.find({username : req.body.username}).count({sent_at:null});
+        const count = await Account.find({username : req.body.username , email : req.body.email}).count({sent_at:null});
+        
     
         if(count!=1){
-        res.status(400).send('wrong username')
-        }
+        res.status(400).send('wrong username / email')
 
+        }
+        else{
         user.forEach(async e =>{
             if(await bcrypt.compare(req.body.password, e.password) && e.account == true){
             res.status(200).send('ok')}
@@ -41,8 +43,9 @@ router.post('/login', async (req, res)=>{
                 res.status(404).send('wrong password')
                }
          })
+        }
          
-    })
+    });
 
 
     router.post('/', async (req, res)=>{
