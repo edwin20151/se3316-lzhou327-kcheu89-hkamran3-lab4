@@ -1,33 +1,61 @@
 <html>
-    <head>
-        <title>SE3316 Lab 4</title>
-        <link rel="stylesheet" href="lab4.css" />
-        
-    </head>    
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="google-signin-client_id"
+      content="992474330307-q6fbvdctbnjogjm54rp71jhvmq9j7a8i.apps.googleusercontent.com"
+    />
+    <title>SE3316 Lab 4</title>
+    <link rel="stylesheet" href="lab4.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//fonts.googleapis.com/css?family=Open+Sans"
+    />
+  </head>
 
-    <body>
-        <script defer src = "" ></script>
-        <main id = "main";>
-            <h1 id = "login">Login</h1>
+  <body>
+    <script defer src=""></script>
+    <main id="main" ;>
+      <h1 id="login">Login</h1>
 
-            <div id = "login-error-msg">
-                <p id = "login-error">Wrong Username <span id="error-msg">or password</span></p>
-            </div>
+      <div id="login-error-msg">
+        <p id="login-error">
+          Wrong Username <span id="error-msg">or password</span>
+        </p>
+      </div>
 
-            <form id="loginpage" class="login">
-                <input type = "email" name="email" id ="email-f" class = "email-f-input" placeholder="email">
-                <input type = "text" name="username" id ="user-f" class = "user-f-input" placeholder="username">
-                <input type = "password" name="password" id ="password-f" class = "user-f-input" placeholder="password">
-                <button id="button"  class="searchButton">Login</button>   
-            </form>
+      <form id="loginpage" class="login">
+        <input
+          type="email"
+          name="email"
+          id="email-f"
+          class="email-f-input"
+          placeholder="email"
+        />
+        <input
+          type="text"
+          name="username"
+          id="user-f"
+          class="user-f-input"
+          placeholder="username"
+        />
+        <input
+          type="password"
+          name="password"
+          id="password-f"
+          class="user-f-input"
+          placeholder="password"
+        />
+        <button id="button" class="searchButton">Login</button>
+      </form>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-            <div id = "errors">
-                <ol id="list">
-
-                </ol>
-            </div>
-        </main>
-    </body>
-
-
+      <div id="errors">
+        <ol id="list"></ol>
+      </div>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <script src="../external_auth.js"></script>
+    </main>
+  </body>
 </html>
