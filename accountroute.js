@@ -4,6 +4,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const account = require('./model/account');
 
+router.use('/login', express.static('loginPage'));
+
 router.get('/', async (req,res)=>{
     try{
         const account = await Account.find();
