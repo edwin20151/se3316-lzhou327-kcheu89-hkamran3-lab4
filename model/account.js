@@ -7,7 +7,7 @@ const AccountSchema = new Schema({
         type:String,
          required:true
     },
-    passsword:{
+    password:{
         type:String,
         required : true
     },
@@ -15,6 +15,10 @@ const AccountSchema = new Schema({
         type:String,
         required:true
     },
+    account:{
+        type:Boolean,
+        require:true
+    }
 }); 
 
 module.exports = mongoose.model('account', AccountSchema);
