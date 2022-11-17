@@ -65,12 +65,12 @@ html {
     padding: 0px 0px 4.9px 4.9px;
   }
   
-  #login-f {
+  .login button {
     width: 100%;
     padding: 6px;
     border-radius: 6px;
     color: white;
-    background-color: black;
+    background-color: green;
     cursor: pointer;
     outline: none;
   }
