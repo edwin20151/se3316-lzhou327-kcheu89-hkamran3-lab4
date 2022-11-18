@@ -1,19 +1,12 @@
+require('dotenv').config()
 const express = require('express');
 const Account = require('./model/account');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const account = require('./model/account');
+const jwt = require('jsonwebtoken')
 
 router.use('/login', express.static('loginPage'));
 
-router.get('/', async (req,res)=>{
-    try{
-        const account = await Account.find();
-        res.json(account);
-    }catch(err){
-        res.status(500).json( {message: err.message})
-    };
-});
 
 
 router.post('/login', async (req, res)=>{
@@ -34,8 +27,12 @@ router.post('/login', async (req, res)=>{
         }
         else{
         user.forEach(async e =>{
+
             if(await bcrypt.compare(req.body.password, e.password) && e.account == true){
-            res.status(200).send('ok')}
+            const accessToken = generateAccessToken(e.username)
+            res.status(200).json({accessToken : accessToken })
+            }
+        
             else if(e.account == false){
                 res.status(401).send('please contact the site administrator')
             }
@@ -97,5 +94,13 @@ router.post('/login', async (req, res)=>{
     }
 });
 
+    router.delete('/login', async(req, res)=>{
+        accessToken = accessToken.filter(token => token !== req.body.token)
+        res.sendStatus(204)
+    })
 
+
+    function generateAccessToken(name){
+    return jwt.sign(name, process.env.ACCESS_TOKEN_SECRET)
+    }
 module.exports= router; 

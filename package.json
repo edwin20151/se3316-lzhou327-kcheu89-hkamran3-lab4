@@ -5,7 +5,7 @@
   "main": "authServer.js",
   "scripts": {
     "start": "nodemon authServer.js",
-    "start2": "nodemon unauthServer.js"
+    "start2": "nodemon server.js"
   },
   "repository": {
     "type": "git",
