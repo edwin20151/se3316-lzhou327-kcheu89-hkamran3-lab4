@@ -17,7 +17,7 @@ db.once('open', ()=> console.log('connected to database'));
 
 
 app.get('/account', authenticateToken, async (req,res)=>{
-    const user1 = await  Account.find({username : req.user})
+    const user1 = await  Account.find({username : req.user.name.username})
     res.json(user1)
 })
 
