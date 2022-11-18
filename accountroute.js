@@ -29,8 +29,10 @@ router.post('/login', async (req, res)=>{
         user.forEach(async e =>{
 
             if(await bcrypt.compare(req.body.password, e.password) && e.account == true){
-            const accessToken = generateAccessToken(e.username)
-            res.status(200).json({accessToken : accessToken })
+            const accessToken = generateAccessToken({username : e.username})
+            const refreshToken = jwt.sign(e.username, process.env.REFRESH_TOEKN)
+            refreshTokens.push(refreshToken)
+            res.status(200).json({accessToken : accessToken , refreshToken : refreshToken})
             }
         
             else if(e.account == false){
@@ -93,14 +95,27 @@ router.post('/login', async (req, res)=>{
         res.status(401).json({message:err});
     }
 });
+    let refreshTokens=[];
+
+    router.post('/token', (req, res)=>{
+         const refreshToken = req.body.token
+         if(refreshToken == null) return res.sendStatus(401)
+         if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+         jwt.verify(refreshToken, process.env.REFRESH_TOEKN, (err, user)=>{
+            if(err) return res.sendStatus(403);
+            const accessToken = generateAccessToken({username : user})
+            res.json({accessToken : accessToken})
+            
+        })
+    })
 
     router.delete('/login', async(req, res)=>{
-        accessToken = accessToken.filter(token => token !== req.body.token)
+        refreshTokens = refreshTokens.filter(token => token !== req.body.token)
         res.sendStatus(204)
     })
 
 
     function generateAccessToken(name){
-    return jwt.sign(name, process.env.ACCESS_TOKEN_SECRET)
+    return jwt.sign({name}, process.env.ACCESS_TOKEN_SECRET , { expiresIn : "1m"})
     }
 module.exports= router; 
