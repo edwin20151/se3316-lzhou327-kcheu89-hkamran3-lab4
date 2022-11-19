@@ -36,6 +36,7 @@ function signup() {
     username: document.getElementById("user-f").value,
     password: document.getElementById("password-f").value,
     email: document.getElementById("email-f").value,
+    account : "true"
   };
   fetch("/account", {
     method: "POST",
@@ -47,32 +48,43 @@ function signup() {
         res.json();
 
         console.log("ok");
-        document.getElementById("list").innerText = "sucess";
-      } else 
-          "something username";
+        document.getElementById("list").innerText = "sucess create";
+      } else if(res.status == 404){
+          console.log("exsit username");
+          document.getElementById("list").innerText = "exsit username";
+      }
+      else{
+        document.getElementById("list").innerText = "error";
+      }
     }
 )}
 
-/*function changePassword() {
+function changePassword() {
 
-    const username = document.getElementById("user-f").value,
-    const password =  document.getElementById("password-f").value,
-    const email = document.getElementById("email-f").value,
+    const username = document.getElementById("user-f").value
 
-  fetch("/", {
+    const newlist = {
+     password :  document.getElementById("password-f").value,
+    email  : document.getElementById("email-f").value
+    }
+
+  
+
+  fetch("/account/"+username, {
     method: "PATCH",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(newlist),
-  }
+  })
     .then((res) => {
       if (res.ok) {
         res.json();
 
         console.log("ok");
-        document.getElementById("list").innerText = "sucess";
+        document.getElementById("list").innerText = "sucess change";
       } else 
-          "something username";
+      document.getElementById("list").innerText = "no username / email";
+        
     }
-))}*/
-
+)}
+  
 

@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
   try {
     if (user == 0) {
       const saveduser = await account.save();
-      res.json(saveduser);
+      res.status(ok).json(saveduser);
     } else {
       res.status(404).send("existed");
     }
@@ -71,9 +71,7 @@ router.post("/", async (req, res) => {
 
 router.patch("/:username", async (req, res) => {
   try {
-    const user = await Account.find({ username: req.params.username }).count({
-      sent_at: null,
-    });
+    const user = await Account.find({ username: req.params.username , email : req.body.email}).count({sent_at: null});
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     if (user > 0) {
@@ -90,6 +88,7 @@ router.patch("/:username", async (req, res) => {
     res.status(401).json({ message: err });
   }
 });
+
 let refreshTokens = [];
 
 router.post("/token", (req, res) => {
