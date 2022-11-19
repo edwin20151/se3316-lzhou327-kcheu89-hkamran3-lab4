@@ -7,10 +7,6 @@ const jwt = require("jsonwebtoken");
 
 router.use("/login", express.static("loginPage"));
 
-router.get("/", async (req, res) => {
-  console.log(Account.find({ username: req.body.username }));
-});
-
 router.post("/login", async (req, res) => {
   const account = new Account({
     username: req.body.username,
