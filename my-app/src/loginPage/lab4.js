@@ -6,7 +6,6 @@ function login() {
     password: document.getElementById("password-f").value,
     email: document.getElementById("email-f").value,
   };
-  console.log(newlist);
   fetch("/account/login", {
     method: "POST",
     headers: { "content-type": "application/json" },
