@@ -1,18 +1,13 @@
-html {
-  height: 100%;
-}
-
-body {
+.backgroundContainer {
   height: 100%;
   margin: 0;
   display: grid;
   justify-items: center;
   align-items: center;
-  /* background-color: black; */
 }
 
-#main {
-  width: 50%;
+.formContainer {
+  width: 100%;
   height: 80%;
   display: grid;
   justify-items: center;

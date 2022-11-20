@@ -16,9 +16,9 @@ function App() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
+      <nav className="navbar">
+        <div className="navbar-nav">
+          <div className="nav-item">
             {isUser ? (
               <button onClick={logout} className="nav-link">
                 Logout
@@ -28,7 +28,7 @@ function App() {
                 Login
               </Link>
             )}
-          </li>
+          </div>
         </div>
       </nav>
       <div className="container mt-3">
