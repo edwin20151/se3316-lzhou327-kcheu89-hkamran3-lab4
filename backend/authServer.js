@@ -4,6 +4,9 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require('cors')
+
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.json());

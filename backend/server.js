@@ -1,9 +1,9 @@
-require("dotenv").config();
+require("dotenv/lib/main").config();
 const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const Account = require("../model/account");
+const Account = require("./model/account");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 

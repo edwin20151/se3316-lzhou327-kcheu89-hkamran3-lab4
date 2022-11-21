@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const Account = require("../model/account");
+const Account = require("./model/account");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
     username: req.body.username,
     password: hashedPassword,
     email: req.body.email,
-    account: req.body.account,
+    account: true,
   });
 
   try {

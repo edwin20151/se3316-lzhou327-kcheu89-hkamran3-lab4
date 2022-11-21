@@ -1,3 +1,6 @@
+import axios from 'axios';
+
+
 document.getElementById("loginButton").addEventListener("click", login);
 document.getElementById("signupButton").addEventListener("click", signup);
 document.getElementById("changepasswordButton").addEventListener("click", changePassword);
@@ -86,5 +89,3 @@ function changePassword() {
         
     }
 )}
-  
-
