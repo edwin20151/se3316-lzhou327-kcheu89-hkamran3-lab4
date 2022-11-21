@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AddReview from "./components/add-review";
 import Restaurant from "./components/restaurant";
 import RestaurantsList from "./components/restaurants-list";
-import Login from "./components/login";
+import Account from "./components/account";
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -15,14 +15,14 @@ function App() {
   }
 
   async function logout() {
-    setUser(null)
+    setUser(null);
   }
 
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <a href="/Homepage" className="navbar-brand">
-            Homepage
+          Homepage
         </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -30,17 +30,20 @@ function App() {
               about
             </Link>
           </li>
-          <li className="nav-item" >
-            { user ? (
-              <a onClick={logout} className="nav-link" style={{cursor:'pointer'}}>
+          <li className="nav-item">
+            {user ? (
+              <a
+                onClick={logout}
+                className="nav-link"
+                style={{ cursor: "pointer" }}
+              >
                 Logout {user.name}
               </a>
-            ) : (            
-            <Link to={"/login"} className="nav-link">
-              Login
-            </Link>
+            ) : (
+              <Link to={"/account"} className="nav-link">
+                Account
+              </Link>
             )}
-
           </li>
         </div>
       </nav>
@@ -48,19 +51,15 @@ function App() {
       <div className="container mt-3">
         <Switch>
           <Route exact path={["/", "/Homepage"]} component={RestaurantsList} />
-          <Route 
+          <Route
             path="/Homepage/aboutus"
-            render={(props) => (
-              <AddReview {...props} user={user} />
-            )}
+            render={(props) => <AddReview {...props} user={user} />}
           />
-          <Route 
+          <Route
             path="/Homepage/:id"
-            render={(props) => (
-              <Restaurant {...props} user={user} />
-            )}
+            render={(props) => <Restaurant {...props} user={user} />}
           />
-          <Route path="/login" component={Login} />
+          <Route path="/account" component={Account} />
         </Switch>
       </div>
     </div>
