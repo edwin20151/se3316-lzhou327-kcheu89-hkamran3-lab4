@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
   try {
     if (user == 0) {
       const saveduser = await account.save();
-      res.status(ok).json(saveduser);
+      res.status(200).json(saveduser);
     } else {
       res.status(404).send("existed");
     }
@@ -80,7 +80,7 @@ router.patch("/:username", async (req, res) => {
         { $set: { password: hashedPassword } }
       );
 
-      res.json(updatedAccount);
+      res.status(200).json(updatedAccount);
     } else {
       res.status(404).send("not existed");
     }

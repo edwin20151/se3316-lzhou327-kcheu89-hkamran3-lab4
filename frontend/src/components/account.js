@@ -27,10 +27,10 @@ export default class Account extends Component {
     };
     console.log(user);
     axios.post("http://localhost:5500/account", user).then((res) => {
-      if (res.ok) {
-        res.json();
+      if (res.status == 200) {
+        
         console.log("ok");
-      } else {
+      } else if(res.status == 404) {
         console.log("username existed");
       }
     });
@@ -41,6 +41,7 @@ export default class Account extends Component {
       email: "",
     });
   }
+
   login() {
     const user = {
       username: this.state.username,
@@ -48,25 +49,18 @@ export default class Account extends Component {
       password: this.state.password,
     };
 
-    axios
-      .post("http://localhost:5500/account/login", user)
-      .then((res) => {
-        if (res.ok) {
-          res.json();
-          console.log("ok");
-          document.getElementById("list").innerText = "success";
-        } else if (res.status == 401) {
-          console.log("Error: ", res.status);
-          document.getElementById("list").innerText =
-            "please contact the site administrator";
-        } else {
-          console.log("Error: ", res.status);
-          document.getElementById("list").innerText =
-            "Wrong password / usernames";
-        }
-      })
-      .catch();
-  }
+    axios.post("http://localhost:5500/account/login", user).then((res) => {
+     if (res.ok) {
+        res.json();
+        console.log("ok");
+      } else if (res.status == 401) {
+        console.log("Error: ", res.status);
+      } else {
+        console.log("Error: ", res.status);
+      }
+    })
+    .catch();
+} 
 
   onGoogleSignInSuccess = (response) => {
     var userObject = jwt_decode(response.credential);
