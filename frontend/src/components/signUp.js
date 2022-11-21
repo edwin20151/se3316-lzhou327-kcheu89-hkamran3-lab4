@@ -27,9 +27,9 @@ export default class SignUp extends Component {
     };
     console.log(user);
     axios.post("http://localhost:5500/account", user).then((res) => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         console.log("ok");
-      } else if (res.status == 404) {
+      } else if (res.status === 404) {
         console.log("username existed");
       }
     });
@@ -40,18 +40,20 @@ export default class SignUp extends Component {
       email: "",
     });
   }
-  onGoogleSignInSuccess = (response) => {
-    var userObject = jwt_decode(response.credential);
-    console.log(userObject);
 
-    // Set user state
-    // setUser(userObject);
-    this.setState({
-      username: userObject.name,
-      email: userObject.email,
-      password: "000",
-    });
-    this.createAccount();
+  onGoogleSignInSuccess = (response) => {
+    //TODO: Create special handling for google signin
+    var userObject = jwt_decode(response.credential);
+    this.setState(
+      {
+        username: userObject.name,
+        email: userObject.email,
+        password: "000000",
+      },
+      () => {
+        this.createAccount();
+      }
+    );
   };
 
   onGoogleSignInFailure(response) {
@@ -117,7 +119,7 @@ export default class SignUp extends Component {
               <div class="buttonContainer">
                 <input
                   type="submit"
-                  value="signUp"
+                  value="Create Account"
                   className="btn btn-primary"
                 />
               </div>
