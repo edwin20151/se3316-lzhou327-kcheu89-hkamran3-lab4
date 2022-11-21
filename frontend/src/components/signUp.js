@@ -27,10 +27,9 @@ export default class SignUp extends Component {
     };
     console.log(user);
     axios.post("http://localhost:5500/account", user).then((res) => {
-      if (res.ok) {
-        res.json();
+      if (res.status == 200) {
         console.log("ok");
-      } else {
+      } else if (res.status == 404) {
         console.log("username existed");
       }
     });
@@ -41,7 +40,6 @@ export default class SignUp extends Component {
       email: "",
     });
   }
-
   onGoogleSignInSuccess = (response) => {
     var userObject = jwt_decode(response.credential);
     console.log(userObject);
