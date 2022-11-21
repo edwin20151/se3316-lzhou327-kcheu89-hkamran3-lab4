@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
-export default class Account extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -40,32 +40,6 @@ export default class Account extends Component {
       password: " ",
       email: "",
     });
-  }
-  login() {
-    const user = {
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    axios
-      .post("http://localhost:5500/account/login", user)
-      .then((res) => {
-        if (res.ok) {
-          res.json();
-          console.log("ok");
-          document.getElementById("list").innerText = "success";
-        } else if (res.status == 401) {
-          console.log("Error: ", res.status);
-          document.getElementById("list").innerText =
-            "please contact the site administrator";
-        } else {
-          console.log("Error: ", res.status);
-          document.getElementById("list").innerText =
-            "Wrong password / usernames";
-        }
-      })
-      .catch();
   }
 
   onGoogleSignInSuccess = (response) => {
@@ -105,18 +79,14 @@ export default class Account extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if (e.target.value == "signUp") {
-      this.createAccount();
-    } else if (e.target.value == "login") {
-      this.login();
-    }
+    this.createAccount();
   }
 
   render() {
     return (
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
-          <h1 id="login">Login / Sign Up</h1>
+          <h1 id="login">Sign Up</h1>
           <form onSubmit={this.onSubmit}>
             <div id="loginpage" class="login">
               <input
@@ -150,13 +120,6 @@ export default class Account extends Component {
                 <input
                   type="submit"
                   value="signUp"
-                  className="btn btn-primary"
-                />
-              </div>
-              <div class="buttonContainer">
-                <input
-                  type="submit"
-                  value="login"
                   className="btn btn-primary"
                 />
               </div>

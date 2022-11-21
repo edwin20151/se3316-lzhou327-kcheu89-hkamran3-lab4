@@ -5,7 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AddReview from "./components/add-review";
 import Restaurant from "./components/restaurant";
 import RestaurantsList from "./components/restaurants-list";
-import Account from "./components/account";
+import SignUp from "./components/signUp";
+import Login from "./components/login";
+import ChangePassword from "./components/changePassword";
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -31,19 +33,31 @@ function App() {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to={"/signup"} className="nav-link">
+              Sign Up
+            </Link>
+          </li>
+          <li className="nav-item">
             {user ? (
-              <a
+              <button
                 onClick={logout}
                 className="nav-link"
                 style={{ cursor: "pointer" }}
               >
-                Logout {user.name}
-              </a>
+                Logout
+              </button>
             ) : (
-              <Link to={"/account"} className="nav-link">
-                Account
+              <Link to={"/login"} className="nav-link">
+                Login
               </Link>
             )}
+          </li>
+          <li className="nav-item">
+            {user ? (
+              <Link to={"/password"} className="nav-link">
+                Change Password
+              </Link>
+            ) : null}
           </li>
         </div>
       </nav>
@@ -59,7 +73,9 @@ function App() {
             path="/Homepage/:id"
             render={(props) => <Restaurant {...props} user={user} />}
           />
-          <Route path="/account" component={Account} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/login" component={Login} />
+          <Route path="/password" component={ChangePassword} />
         </Switch>
       </div>
     </div>
