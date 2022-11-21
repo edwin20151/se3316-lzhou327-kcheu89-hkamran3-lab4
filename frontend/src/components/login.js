@@ -1,15 +1,8 @@
-<<<<<<< HEAD
 import React, { Component } from "react";
 import "../styles/login.css";
 import jwt_decode from "jwt-decode";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-=======
-import React from "react";
-import "../styles/login.css";
-import jwt_decode from "jwt-decode";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
->>>>>>> a300bd2957ff8c65f07d49bddf1360f628447c3d
 
 function onGoogleSignInSuccess(response) {
   var userObject = jwt_decode(response.credential);
@@ -47,7 +40,6 @@ function onGoogleSignInFailure(response) {
   console.log(response);
 }
 
-<<<<<<< HEAD
 
 
 
@@ -133,20 +125,6 @@ export default class Login extends Component{
         <h1 id="login">Login / Signup</h1>
         <form onSubmit={this.onSubmit}>
         
-=======
-function Login() {
-  return (
-    <div id="background" className="backgroundContainer">
-      <div id="form" className="formContainer">
-        <h1 id="login">Login / Signup</h1>
-
-        <div id="login-error-msg">
-          <p id="login-error">
-            Wrong Username <span id="error-msg">or password</span>
-          </p>
-        </div>
-
->>>>>>> a300bd2957ff8c65f07d49bddf1360f628447c3d
         <div id="loginpage" class="login">
           <input
             type="email"
@@ -154,12 +132,9 @@ function Login() {
             id="email-f"
             class="email-f-input"
             placeholder="email"
-<<<<<<< HEAD
             value={this.state.email}
             onChange={this.onChangeEmail}
            
-=======
->>>>>>> a300bd2957ff8c65f07d49bddf1360f628447c3d
           />
           <input
             type="text"
@@ -167,11 +142,8 @@ function Login() {
             id="user-f"
             class="user-f-input"
             placeholder="username"
-<<<<<<< HEAD
             value={this.state.username}
             onChange={this.onChangeUsername}
-=======
->>>>>>> a300bd2957ff8c65f07d49bddf1360f628447c3d
           />
           <input
             type="password"
@@ -179,7 +151,6 @@ function Login() {
             id="password-f"
             class="user-f-input"
             placeholder="password"
-<<<<<<< HEAD
             value={this.state.password}
             onChange={this.onChangePassword}
             
@@ -193,28 +164,12 @@ function Login() {
         
         </form>
             
-=======
-          />
-          <div class="buttonContainer">
-            <button id="loginButton" class="searchButton">
-              Login
-            </button>
-            <button id="signupButton" class="searchButton">
-              Sign up
-            </button>
-            <button id="changepasswordButton" class="searchButton">
-              Change Password
-            </button>
-          </div>
-        </div>
->>>>>>> a300bd2957ff8c65f07d49bddf1360f628447c3d
         <GoogleOAuthProvider clientId="992474330307-q6fbvdctbnjogjm54rp71jhvmq9j7a8i.apps.googleusercontent.com">
           <GoogleLogin
             onSuccess={onGoogleSignInSuccess}
             onError={onGoogleSignInFailure}
           />
         </GoogleOAuthProvider>
-<<<<<<< HEAD
         
         
       </div>
@@ -222,14 +177,4 @@ function Login() {
   );
   }
 }
-  
-=======
-        <script src="../external_auth.js"></script>
-        <script defer src="lab4.js"></script>
-      </div>
-    </div>
-  );
-}
 
-export default Login;
->>>>>>> a300bd2957ff8c65f07d49bddf1360f628447c3d
