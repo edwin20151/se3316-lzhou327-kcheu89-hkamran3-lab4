@@ -1,10 +1,10 @@
+//TODO
+
 import React, { Component } from "react";
 import "../styles/login.css";
-import jwt_decode from "jwt-decode";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
-export default class Account extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -18,30 +18,6 @@ export default class Account extends Component {
       password: "",
     };
   }
-
-  createAccount() {
-    const user = {
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-    };
-    console.log(user);
-    axios.post("http://localhost:5500/account", user).then((res) => {
-      if (res.status == 200) {
-        
-        console.log("ok");
-      } else if(res.status == 404) {
-        console.log("username existed");
-      }
-    });
-
-    this.setState({
-      username: "",
-      password: " ",
-      email: "",
-    });
-  }
-
   login() {
     const user = {
       username: this.state.username,
@@ -49,36 +25,24 @@ export default class Account extends Component {
       password: this.state.password,
     };
 
-    axios.post("http://localhost:5500/account/login", user).then((res) => {
-     if (res.ok) {
-        res.json();
-        console.log("ok");
-      } else if (res.status == 401) {
-        console.log("Error: ", res.status);
-      } else {
-        console.log("Error: ", res.status);
-      }
-    })
-    .catch();
-} 
-
-  onGoogleSignInSuccess = (response) => {
-    var userObject = jwt_decode(response.credential);
-    console.log(userObject);
-
-    // Set user state
-    // setUser(userObject);
-    this.setState({
-      username: userObject.name,
-      email: userObject.email,
-      password: "000",
-    });
-    this.createAccount();
-  };
-
-  onGoogleSignInFailure(response) {
-    console.log("Google sign in failed.");
-    console.log(response);
+    axios
+      .post("http://localhost:5500/account/login", user)
+      .then((res) => {
+        if (res.ok) {
+          res.json();
+          console.log("ok");
+          document.getElementById("list").innerText = "success";
+        } else if (res.status === 401) {
+          console.log("Error: ", res.status);
+          document.getElementById("list").innerText =
+            "please contact the site administrator";
+        } else {
+          console.log("Error: ", res.status);
+          document.getElementById("list").innerText =
+            "Wrong password / usernames";
+        }
+      })
+      .catch();
   }
 
   onChangeUsername(e) {
@@ -99,18 +63,14 @@ export default class Account extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if (e.target.value == "signUp") {
-      this.createAccount();
-    } else if (e.target.value == "login") {
-      this.login();
-    }
+    this.login();
   }
 
   render() {
     return (
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
-          <h1 id="login">Login / Sign Up</h1>
+          <h1 id="login">Login </h1>
           <form onSubmit={this.onSubmit}>
             <div id="loginpage" class="login">
               <input
@@ -143,26 +103,12 @@ export default class Account extends Component {
               <div class="buttonContainer">
                 <input
                   type="submit"
-                  value="signUp"
-                  className="btn btn-primary"
-                />
-              </div>
-              <div class="buttonContainer">
-                <input
-                  type="submit"
                   value="login"
                   className="btn btn-primary"
                 />
               </div>
             </div>
           </form>
-
-          <GoogleOAuthProvider clientId="992474330307-q6fbvdctbnjogjm54rp71jhvmq9j7a8i.apps.googleusercontent.com">
-            <GoogleLogin
-              onSuccess={this.onGoogleSignInSuccess}
-              onError={this.onGoogleSignInFailure}
-            />
-          </GoogleOAuthProvider>
           <ol id="list"></ol>
         </div>
       </div>

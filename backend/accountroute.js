@@ -4,9 +4,11 @@ const Account = require("./model/account");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const confirmationCode = require("./confirmationCode");
 
 router.use("/login", express.static("loginPage"));
 
+// Login
 router.post("/login", async (req, res) => {
   const account = new Account({
     username: req.body.username,
@@ -28,12 +30,18 @@ router.post("/login", async (req, res) => {
         (await bcrypt.compare(req.body.password, e.password)) &&
         e.account == true
       ) {
-        const accessToken = generateAccessToken({ username: e.username });
-        const refreshToken = jwt.sign(e.username, process.env.REFRESH_TOEKN);
-        refreshTokens.push(refreshToken);
-        res
-          .status(200)
-          .json({ accessToken: accessToken, refreshToken: refreshToken });
+        if (user.confirmed == false) {
+          res
+            .status(401)
+            .send("Your account is not verified, Please check your email.");
+        } else {
+          const accessToken = generateAccessToken({ username: e.username });
+          const refreshToken = jwt.sign(e.username, process.env.REFRESH_TOEKN);
+          refreshTokens.push(refreshToken);
+          res
+            .status(200)
+            .json({ accessToken: accessToken, refreshToken: refreshToken });
+        }
       } else if (e.account == false) {
         res.status(401).send("please contact the site administrator");
       } else {
@@ -43,6 +51,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Sign up
 router.post("/", async (req, res) => {
   const user = await Account.find({ username: req.body.username }).count({
     sent_at: null,
@@ -55,6 +64,7 @@ router.post("/", async (req, res) => {
     password: hashedPassword,
     email: req.body.email,
     account: true,
+    confirmationCode: confirmationCode(),
   });
 
   try {
@@ -71,7 +81,10 @@ router.post("/", async (req, res) => {
 
 router.patch("/:username", async (req, res) => {
   try {
-    const user = await Account.find({ username: req.params.username , email : req.body.email}).count({sent_at: null});
+    const user = await Account.find({
+      username: req.params.username,
+      email: req.body.email,
+    }).count({ sent_at: null });
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     if (user > 0) {
