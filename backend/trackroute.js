@@ -6,7 +6,7 @@ const Track = require('./model/track');
 router.get('/genre/:genreId', async (req,res)=>{
     try{
         const track = await Track.find({track_genres : {$regex : req.params.genreId}});
-        res.json(track); 
+        res.json(track)
     }catch(err){
         res.json({message: err});
 };
@@ -14,11 +14,11 @@ router.get('/genre/:genreId', async (req,res)=>{
 
 
 
-
 router.get('/band/:bandId', async (req,res)=>{
     try{
         const track = await Track.find({album_title : {$regex: req.params.bandId}});
-        res.json(track);
+        res.send(track)
+    
     }catch(err){
         res.json({message: err});
 };
@@ -43,8 +43,8 @@ router.get('/artist/:artistId', async (req,res)=>{
     }catch(err){
         res.json({message: err});
 };
-});
 
+});
 
 
 module.exports= router;

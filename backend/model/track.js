@@ -11,10 +11,6 @@ const trackSchema = new Schema({
         type:String,
         required:true,
     },
-    tags:{
-        type:String,
-        required:true
-    },
     track_title:{
         type:String,
         required:true
@@ -22,8 +18,16 @@ const trackSchema = new Schema({
     track_genres:{
         type:Array,
         required:true
+    },
+    track_duration:{
+        type:String,
+        required:true
+    },
+    track_date_created:{
+        type:String,
+        required:true
     }
 
-}); 
+})
 
 module.exports = mongoose.model('track', trackSchema);
