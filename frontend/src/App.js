@@ -3,8 +3,9 @@ import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import AddReview from "./components/add-review";
-import Restaurant from "./components/restaurant";
-import RestaurantsList from "./components/restaurants-list";
+import Restaurant from "./components/postLogon";
+import PreLogon from "./components/preLogon";
+import PostLogon from "./components/postLogon";
 import SignUp from "./components/signUp";
 import Login from "./components/login";
 import ChangePassword from "./components/changePassword";
@@ -65,7 +66,7 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/Homepage"]} component={RestaurantsList} />
+          <Route exact path={["/", "/Homepage"]} component={PreLogon} />
           <Route
             path="/Homepage/aboutus"
             render={(props) => <AddReview {...props} user={user} />}
@@ -77,6 +78,7 @@ function App() {
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
           <Route path="/password" component={ChangePassword} />
+          <Route path="/postlogon" component={PostLogon} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
         </Switch>
       </div>
