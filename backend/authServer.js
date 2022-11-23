@@ -25,4 +25,8 @@ app.use("/info", serverRoute);
 const trackRoute = require("./trackroute.js");
 app.use("/track", trackRoute);
 
+const listRoute = require("./listroute.js");
+app.use("/list", listRoute);
+
+
 app.listen(5500);
