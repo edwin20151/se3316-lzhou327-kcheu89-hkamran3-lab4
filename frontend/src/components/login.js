@@ -28,7 +28,7 @@ export default class Login extends Component {
       .then((res) => {
         if (res.status === 200) {
           console.log("ok");
-          document.getElementById("list").innerText = "Login successful";
+          this.props.history.push("/postlogon");
         } else if (res.status === 401) {
           console.log("Error: ", res.status);
           document.getElementById("list").innerText =
