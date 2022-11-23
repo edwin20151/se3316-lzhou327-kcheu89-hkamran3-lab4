@@ -8,6 +8,7 @@ import RestaurantsList from "./components/restaurants-list";
 import SignUp from "./components/signUp";
 import Login from "./components/login";
 import ChangePassword from "./components/changePassword";
+import Welcome from "./components/welcome";
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -76,6 +77,7 @@ function App() {
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
           <Route path="/password" component={ChangePassword} />
+          <Route path="/confirm/:confirmationCode" component={Welcome} />
         </Switch>
       </div>
     </div>

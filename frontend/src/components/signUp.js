@@ -29,6 +29,8 @@ export default class SignUp extends Component {
     axios.post("http://localhost:5500/account", user).then((res) => {
       if (res.status === 200) {
         console.log("ok");
+        document.getElementById("list").innerText =
+          "User was registered successfully! Please check your email";
       } else if (res.status === 404) {
         console.log("username existed");
       }

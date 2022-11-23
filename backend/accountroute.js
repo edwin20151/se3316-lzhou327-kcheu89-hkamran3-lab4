@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const confirmationCode = require("./confirmationCode");
+const sendConfirmationEmail = require("./emailVerify");
 
 router.use("/login", express.static("loginPage"));
 
@@ -59,17 +60,20 @@ router.post("/", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+  const token = confirmationCode();
+
   const account = new Account({
     username: req.body.username,
     password: hashedPassword,
     email: req.body.email,
     account: true,
-    confirmationCode: confirmationCode(),
+    confirmationCode: token,
   });
 
   try {
     if (user == 0) {
       const saveduser = await account.save();
+      sendConfirmationEmail(req.body.username, req.body.email, token);
       res.status(200).json(saveduser);
     } else {
       res.status(404).send("existed");
@@ -77,6 +81,23 @@ router.post("/", async (req, res) => {
   } catch (err) {
     res.json({ message: err });
   }
+});
+
+router.get("/auth/:confirmationCode", async (req, res) => {
+  await Account.find({ confirmationCode: req.params.confirmationCode })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+      user.confirmed = true;
+      user.save((err) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+      });
+    })
+    .catch((e) => console.log("error", e));
 });
 
 router.patch("/:username", async (req, res) => {
