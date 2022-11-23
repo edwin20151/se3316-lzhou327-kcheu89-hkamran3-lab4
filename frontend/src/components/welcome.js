@@ -4,7 +4,7 @@ import axios from "axios";
 
 const verifyUser = (code) => {
   return axios
-    .get("http://localhost:5500/account/auth/" + code)
+    .patch("http://localhost:5500/account/auth/" + code)
     .then((response) => {
       return response.data;
     });
@@ -17,7 +17,7 @@ const Welcome = (props) => {
 
   return (
     <div className="container">
-      <header className="jumbotron">
+      <header className="main">
         <h3>
           <strong>Account confirmed!</strong>
         </h3>

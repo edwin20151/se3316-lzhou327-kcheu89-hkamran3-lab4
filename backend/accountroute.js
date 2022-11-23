@@ -83,21 +83,18 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/auth/:confirmationCode", async (req, res) => {
-  await Account.find({ confirmationCode: req.params.confirmationCode })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send({ message: "User Not found." });
-      }
-      user.confirmed = true;
-      user.save((err) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-      });
-    })
-    .catch((e) => console.log("error", e));
+router.patch("/auth/:confirmationCode", async (req, res) => {
+  const user = await Account.find({
+    confirmationCode: req.params.confirmationCode,
+  });
+  if (!user) {
+    return res.status(404).send("not existed");
+  }
+  const updatedAccount = await Account.updateOne(
+    { confirmationCode: req.params.confirmationCode },
+    { $set: { confirmed: true } }
+  );
+  res.status(200).json(updatedAccount);
 });
 
 router.patch("/:username", async (req, res) => {
