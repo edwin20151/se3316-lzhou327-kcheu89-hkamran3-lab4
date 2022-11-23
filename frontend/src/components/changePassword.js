@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import "../styles/login.css";
 import axios from "axios";
 
-export default class Login extends Component {
+export default class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.onChangePassword = this.onChangePassword.bind(this);

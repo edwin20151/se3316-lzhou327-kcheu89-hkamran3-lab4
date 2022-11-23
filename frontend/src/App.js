@@ -11,6 +11,8 @@ import Login from "./components/login";
 import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 
+
+
 function App() {
   const [user, setUser] = React.useState(null);
 
@@ -66,10 +68,9 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/Homepage"]} component={PreLogon} />
+        <Route exact path={["/", "/Homepage"]} component={PreLogon} />
           <Route
-            path="/Homepage/aboutus"
-            render={(props) => <AddReview {...props} user={user} />}
+            path="/Homepage/aboutus" render={(props) => <AddReview {...props} user={user} />}
           />
           <Route
             path="/Homepage/:id"
