@@ -22,4 +22,7 @@ app.use("/account", accountRoute);
 const serverRoute = require("./serverRoute");
 app.use("/info", serverRoute);
 
+const trackRoute = require("./trackroute.js");
+app.use("/track", trackRoute);
+
 app.listen(5500);

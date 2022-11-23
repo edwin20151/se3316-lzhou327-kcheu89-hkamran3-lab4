@@ -19,8 +19,8 @@ const trackSchema = new Schema({
         type:String,
         required:true
     },
-    track_title:{
-        type:String,
+    track_genres:{
+        type:Array,
         required:true
     }
 
