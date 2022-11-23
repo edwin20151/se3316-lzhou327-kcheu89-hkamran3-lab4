@@ -5,7 +5,7 @@ const Track = require('./model/track');
 
 router.get('/genre/:genreId', async (req,res)=>{
     try{
-        const track = await Track.find({track_genres:{$elemMatch:{genre_title : "Punk"}}});
+        const track = await Track.find({track_genres : {$regex : req.params.genreId}});
         res.json(track); 
     }catch(err){
         res.json({message: err});
