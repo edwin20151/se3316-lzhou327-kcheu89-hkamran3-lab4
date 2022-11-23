@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const confirmationCode = require("./confirmationCode");
+const sendConfirmationEmail = require("./emailVerify");
 
 router.use("/login", express.static("loginPage"));
 
@@ -30,7 +31,7 @@ router.post("/login", async (req, res) => {
         (await bcrypt.compare(req.body.password, e.password)) &&
         e.account == true
       ) {
-        if (user.confirmed == false) {
+        if (e.confirmed == false) {
           res
             .status(401)
             .send("Your account is not verified, Please check your email.");
@@ -59,17 +60,20 @@ router.post("/", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+  const token = confirmationCode();
+
   const account = new Account({
     username: req.body.username,
     password: hashedPassword,
     email: req.body.email,
     account: true,
-    confirmationCode: confirmationCode(),
+    confirmationCode: token,
   });
 
   try {
     if (user == 0) {
       const saveduser = await account.save();
+      sendConfirmationEmail(req.body.username, req.body.email, token);
       res.status(200).json(saveduser);
     } else {
       res.status(404).send("existed");
@@ -77,6 +81,20 @@ router.post("/", async (req, res) => {
   } catch (err) {
     res.json({ message: err });
   }
+});
+
+router.patch("/auth/:confirmationCode", async (req, res) => {
+  const user = await Account.find({
+    confirmationCode: req.params.confirmationCode,
+  });
+  if (!user) {
+    return res.status(404).send("not existed");
+  }
+  const updatedAccount = await Account.updateOne(
+    { confirmationCode: req.params.confirmationCode },
+    { $set: { confirmed: true } }
+  );
+  res.status(200).json(updatedAccount);
 });
 
 router.patch("/:username", async (req, res) => {

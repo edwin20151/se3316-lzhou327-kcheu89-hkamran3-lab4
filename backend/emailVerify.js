@@ -4,7 +4,9 @@ const config = require("./config/auth.config.js");
 const user = config.user;
 const pass = config.pass;
 const transport = nodemailer.createTransport({
-  service: "Gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: user,
     pass: pass,
