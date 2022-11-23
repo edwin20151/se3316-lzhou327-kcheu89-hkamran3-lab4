@@ -19,4 +19,7 @@ db.once("open", () => console.log("connected to database"));
 const accountRoute = require("./accountroute");
 app.use("/account", accountRoute);
 
+const serverRoute = require("./serverRoute");
+app.use("/info", serverRoute);
+
 app.listen(5500);
