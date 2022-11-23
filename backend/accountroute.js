@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
         (await bcrypt.compare(req.body.password, e.password)) &&
         e.account == true
       ) {
-        if (user.confirmed == false) {
+        if (e.confirmed == false) {
           res
             .status(401)
             .send("Your account is not verified, Please check your email.");

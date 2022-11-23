@@ -26,10 +26,9 @@ export default class Login extends Component {
     axios
       .post("http://localhost:5500/account/login", user)
       .then((res) => {
-        if (res.ok) {
-          res.json();
+        if (res.status === 200) {
           console.log("ok");
-          document.getElementById("list").innerText = "success";
+          document.getElementById("list").innerText = "Login successful";
         } else if (res.status === 401) {
           console.log("Error: ", res.status);
           document.getElementById("list").innerText =
