@@ -57,6 +57,7 @@ export default class SignUp extends Component {
       },
       () => {
         this.createAccount();
+        this.props.history.push("/postlogon");
       }
     );
   };
