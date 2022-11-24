@@ -26,22 +26,28 @@ export default class SignUp extends Component {
       password: this.state.password,
     };
 
-    axios.post("http://localhost:5500/account", user).then((res) => {
-      if (res.status === 200) {
-        console.log("ok");
-        document.getElementById("list").innerText =
-          "User was registered successfully! Please check your email";
-      } else if (res.status === 404) {
-        console.log("username existed");
-        document.getElementById("list").innerText = "username existed";
-      } else {
-        document.getElementById("list").innerText = "error";
-      }
-    });
+    axios
+      .post("http://localhost:5500/account", user)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("Signed Up successfully");
+          document.getElementById("list").innerText =
+            "User was registered successfully! Please check your email";
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          document.getElementById("list").innerText =
+            "This email has been registered.";
+        } else {
+          document.getElementById("list").innerText =
+            "Unkown error, please try again.";
+        }
+      });
 
     this.setState({
       username: "",
-      password: " ",
+      password: "",
       email: "",
     });
   }

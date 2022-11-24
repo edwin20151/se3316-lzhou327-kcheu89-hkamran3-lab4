@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
 
 // Sign up
 router.post("/", async (req, res) => {
-  const user = await Account.find({ username: req.body.username }).count({
+  const user = await Account.find({ email: req.body.email }).count({
     sent_at: null,
   });
   const salt = await bcrypt.genSalt(10);
