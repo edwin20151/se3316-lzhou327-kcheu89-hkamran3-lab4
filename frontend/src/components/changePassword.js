@@ -8,35 +8,55 @@ export default class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
+      username: "",
+      email: "",
       password: "",
+      confirmPassword: "",
     };
   }
-  login() {
-    const pw = {
-      password: this.state.password,
-    };
+  changePassword() {
+    if (this.state.password !== this.state.confirmPassword) {
+      document.getElementById("list").innerText =
+        "Password and Confirm Password doesn't match.";
+      this.setState({
+        password: "",
+        confirmPassword: "",
+      });
+      return;
+    }
 
-    axios
-      .patch("http://localhost:5500/account/", pw)
-      .then((res) => {
-        if (res.ok) {
-          res.json();
-          console.log("ok");
-          document.getElementById("list").innerText = "success";
-        } else if (res.status === 401) {
-          console.log("Error: ", res.status);
-          document.getElementById("list").innerText =
-            "please contact the site administrator";
-        } else {
-          console.log("Error: ", res.status);
-          document.getElementById("list").innerText =
-            "Wrong password / usernames";
-        }
-      })
-      .catch();
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    this.setState(
+      {
+        username: loggedInUser.username,
+        email: loggedInUser.email,
+      },
+      () => {
+        const user = {
+          username: this.state.username,
+          email: this.state.email,
+          password: this.state.password,
+        };
+        axios
+          .patch("http://localhost:5500/account/" + user.email, user)
+          .then((res) => {
+            if (res.status === 200) {
+              document.getElementById("list").innerText =
+                "Updated your password successfully";
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("Error: ", err.response.status);
+            document.getElementById("list").innerText =
+              "please contact the site administrator";
+          });
+      }
+    );
   }
 
   onChangePassword(e) {
@@ -45,16 +65,22 @@ export default class ChangePassword extends Component {
     });
   }
 
+  onChangeConfirmPassword(e) {
+    this.setState({
+      confirmPassword: e.target.value,
+    });
+  }
+
   onSubmit(e) {
     e.preventDefault();
-    this.login();
+    this.changePassword();
   }
 
   render() {
     return (
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
-          <h1 id="login">Login </h1>
+          <h1 id="login">Change Password </h1>
           <form onSubmit={this.onSubmit}>
             <div id="loginpage" class="login">
               <input
@@ -68,17 +94,17 @@ export default class ChangePassword extends Component {
               />
               <input
                 type="password"
-                name="password"
-                id="password-f"
+                name="password-confirm"
+                id="password-confirm"
                 class="user-f-input"
                 placeholder="Confirm New Password"
-                value={this.state.password}
-                onChange={this.onChangePassword}
+                value={this.state.confirmPassword}
+                onChange={this.onChangeConfirmPassword}
               />
               <div class="buttonContainer">
                 <input
                   type="submit"
-                  value="login"
+                  value="Submit"
                   className="btn btn-primary"
                 />
               </div>

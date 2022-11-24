@@ -97,17 +97,17 @@ router.patch("/auth/:confirmationCode", async (req, res) => {
   res.status(200).json(updatedAccount);
 });
 
-router.patch("/:username", async (req, res) => {
+router.patch("/:email", async (req, res) => {
   try {
     const user = await Account.find({
-      username: req.params.username,
-      email: req.body.email,
+      username: req.body.username,
+      email: req.params.email,
     }).count({ sent_at: null });
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     if (user > 0) {
       const updatedAccount = await Account.updateMany(
-        { username: req.params.username },
+        { email: req.params.email },
         { $set: { password: hashedPassword } }
       );
 
