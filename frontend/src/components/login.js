@@ -27,19 +27,22 @@ export default class Login extends Component {
       .post("http://localhost:5500/account/login", user)
       .then((res) => {
         if (res.status === 200) {
-          console.log("ok");
+          console.log("Signed in successfully");
+          console.log(res.data);
+          localStorage.setItem("user", res.data);
           this.props.history.push("/postlogon");
-        } else if (res.status === 401) {
-          console.log("Error: ", res.status);
-          document.getElementById("list").innerText =
-            "please contact the site administrator";
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          console.log("Error: ", err.response.status);
+          document.getElementById("list").innerText = err.response.data;
         } else {
-          console.log("Error: ", res.status);
+          console.log("Error: ", err.response.status);
           document.getElementById("list").innerText =
             "Wrong password / usernames";
         }
-      })
-      .catch();
+      });
   }
 
   onChangeUsername(e) {
