@@ -28,8 +28,13 @@ export default class Login extends Component {
       .then((res) => {
         if (res.status === 200) {
           console.log("Signed in successfully");
-          console.log(res.data);
-          localStorage.setItem("user", res.data);
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              username: this.state.username,
+              email: this.state.email,
+            })
+          );
           this.props.history.push("/postlogon");
         }
       })

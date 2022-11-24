@@ -1,5 +1,5 @@
-import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Switch, Route, Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import AddReview from "./components/add-review";
@@ -12,15 +12,23 @@ import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 
 function App() {
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = useState();
+  let location = useLocation();
 
-  async function login(user = null) {
-    setUser(user);
-  }
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    } else {
+      setUser(null);
+    }
+  }, [location]);
 
-  async function logout() {
+  const handleLogout = () => {
     setUser(null);
-  }
+    localStorage.removeItem("user");
+  };
 
   return (
     <div>
@@ -35,19 +43,22 @@ function App() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/signup"} className="nav-link">
-              Sign Up
-            </Link>
+            {user ? null : (
+              <Link to={"/signup"} className="nav-link">
+                Sign Up
+              </Link>
+            )}
           </li>
           <li className="nav-item">
             {user ? (
-              <button
-                onClick={logout}
+              <Link
+                to={"/Homepage"}
+                onClick={handleLogout}
                 className="nav-link"
                 style={{ cursor: "pointer" }}
               >
                 Logout
-              </button>
+              </Link>
             ) : (
               <Link to={"/login"} className="nav-link">
                 Login
