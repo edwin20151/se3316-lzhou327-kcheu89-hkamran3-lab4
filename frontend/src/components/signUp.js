@@ -91,7 +91,25 @@ export default class SignUp extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.createAccount();
+    document.getElementById("list").innerText = "";
+    if (this.state.email === "") {
+      document.getElementById("list").innerText = "Please enter your email\n";
+    }
+    if (this.state.username === "") {
+      document.getElementById("list").innerText +=
+        "Please enter your username\n";
+    }
+    if (this.state.password === "") {
+      document.getElementById("list").innerText +=
+        "Please enter your password\n";
+    }
+    if (
+      this.state.email !== "" &&
+      this.state.username !== "" &&
+      this.state.password !== ""
+    ) {
+      this.createAccount();
+    }
   }
 
   render() {

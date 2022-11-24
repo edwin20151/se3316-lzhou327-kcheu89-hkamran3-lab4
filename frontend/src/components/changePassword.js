@@ -73,7 +73,18 @@ export default class ChangePassword extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.changePassword();
+    document.getElementById("list").innerText = "";
+    if (this.state.password === "") {
+      document.getElementById("list").innerText +=
+        "Please enter your new password\n";
+    }
+    if (this.state.confirmPassword === "") {
+      document.getElementById("list").innerText +=
+        "Please enter your confirm password\n";
+    }
+    if (this.state.password !== "" && this.state.confirmPassword !== "") {
+      this.changePassword();
+    }
   }
 
   render() {
