@@ -97,6 +97,7 @@ router.patch("/auth/:confirmationCode", async (req, res) => {
   res.status(200).json(updatedAccount);
 });
 
+// Update password
 router.patch("/:email", async (req, res) => {
   try {
     const user = await Account.find({
@@ -111,6 +112,48 @@ router.patch("/:email", async (req, res) => {
         { $set: { password: hashedPassword } }
       );
 
+      res.status(200).json(updatedAccount);
+    } else {
+      res.status(404).send("not existed");
+    }
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
+});
+
+// Update admin rights
+router.patch("/admin", async (req, res) => {
+  try {
+    const user = await Account.find({
+      username: req.body.username,
+      email: req.body.email,
+    }).count({ sent_at: null });
+    if (user > 0) {
+      const updatedAccount = await Account.updateMany(
+        { email: req.body.email },
+        { $set: { isAdmin: req.body.isAdmin } }
+      );
+      res.status(200).json(updatedAccount);
+    } else {
+      res.status(404).send("not existed");
+    }
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
+});
+
+// Update account status
+router.patch("/status", async (req, res) => {
+  try {
+    const user = await Account.find({
+      username: req.body.username,
+      email: req.body.email,
+    }).count({ sent_at: null });
+    if (user > 0) {
+      const updatedAccount = await Account.updateMany(
+        { email: req.body.email },
+        { $set: { account: req.body.isActivated } }
+      );
       res.status(200).json(updatedAccount);
     } else {
       res.status(404).send("not existed");
