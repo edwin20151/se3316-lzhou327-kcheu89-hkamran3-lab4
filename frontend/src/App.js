@@ -10,6 +10,7 @@ import SignUp from "./components/signUp";
 import Login from "./components/login";
 import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
+import Search from "./components/search";
 
 
 
@@ -41,7 +42,12 @@ function App() {
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/Homepage/aboutus"} className="nav-link">
-              about
+              About Us
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/search"} className="nav-link">
+              Search
             </Link>
           </li>
           <li className="nav-item">
@@ -89,6 +95,7 @@ function App() {
           />
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
+          <Route path="/search" component={Search} />
           <Route path="/password" component={ChangePassword} />
           <Route path="/postlogon" component={PostLogon} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
