@@ -3,47 +3,16 @@ const router = express.Router();
 const Track = require('./model/track');
 
 
-router.get('/genre/:genreId', async (req,res)=>{
-    try{
-        const track = await Track.find({track_genres : {$regex : req.params.genreId}});
-        res.json(track)
-    }catch(err){
-        res.json({message: err});
-};
-});
-
-
-
-router.get('/band/:bandId', async (req,res)=>{
-    try{
-        const track = await Track.find({album_title : {$regex: req.params.bandId}});
-        res.send(track)
-    
-    }catch(err){
-        res.json({message: err});
-};
-});
-
-router.get('/track/:trackId', async (req,res)=>{
-    try{
-        const track = await Track.find({track_title: {$regex:req.params.trackId}});
-        res.json(track);
-    }catch(err){
-        res.json({message: err});
-};
-});
-
-
-
-router.get('/artist/:artistId', async (req,res)=>{
-    try{
-        const track = await Track.find({artist_name: {$regex:req.params.artistId}});
-        res.json(track);
+router.post('/search', async (req,res)=>{
+    const track = new  Track({
+        album_title: req.body.album_title,
+        artist_name: req.body.artist_name,
+        track_genres: req.body.track_genres,
+        track_title: req.body.track_title,
+    })
+        const track1 = await Track.find({album_title : {$regex : req.body.album_title}, track_title: {$regex: req.body.track_title}, artist_name: {$regex: req.body.artist_name}, track_genres : {$regex: req.body.track_genres}}) ;
         
-    }catch(err){
-        res.json({message: err});
-};
-
+        res.json(track1)
 });
 
 
