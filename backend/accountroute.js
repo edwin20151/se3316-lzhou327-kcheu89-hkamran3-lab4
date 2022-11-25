@@ -121,6 +121,12 @@ router.patch("/:email", async (req, res) => {
   }
 });
 
+// Get all the users
+router.get("/", async (req, res) => {
+  const users = Account.find();
+  res.status(200).json({ users });
+});
+
 // Update admin rights
 router.patch("/admin", async (req, res) => {
   try {
