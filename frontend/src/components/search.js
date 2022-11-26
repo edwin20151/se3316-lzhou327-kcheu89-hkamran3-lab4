@@ -39,16 +39,34 @@ export default class Search extends Component {
             function expand(){
                 res.data.forEach(e => {
                     const item = document.createElement('li');
-                    item.appendChild(document.createTextNode(` trickname: ${e.track_genres}`))
+                    item.appendChild(document.createTextNode(` trackname: ${e.track_genres}`))
+                    var but = document.createElement('button');
+                    but.innerHTML = 'YouTube';
+                    but.style.fontWeight = 'bold';
+                    but.style.backgroundColor = 'red'
+                    but.style.color = 'white';
+                    but.style.height = '4vh'
+                    but.style.width = '8vh'
+                    item.appendChild(but)
+                    l.appendChild(item);
+                    but.onclick = window.open("https://www.youtube.com/results?search_query="+e.artist_name + e.track_title);
                     l.appendChild(item);
                 })}
             res.data.forEach(e => {
                 const item = document.createElement('li');
-                item.appendChild(document.createTextNode(` trickname: ${e.track_title}, artistname:  ${e.artist_name}`))
+                item.appendChild(document.createTextNode(` trackname: ${e.track_title}, artistname:  ${e.artist_name}`))
+                var but = document.createElement('button');
+                but.innerHTML = 'YouTube';
+                but.style.fontWeight = 'bold';
+                but.style.backgroundColor = 'red'
+                but.style.color = 'white';
+                but.style.height = '4vh'
+                but.style.width = '8vh'
+                item.appendChild(but)
                 l.appendChild(item);
-
-            
-            });
+                but.onclick = window.open("https://www.youtube.com/results?search_query="+e.artist_name + e.track_title);
+            })
+            ;
           
             });
         }
@@ -130,6 +148,7 @@ export default class Search extends Component {
                       className="btn btn-primary"
                     />
                     </div>
+                    
               </form>
               <ol id="list"></ol>
               <br />
