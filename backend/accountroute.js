@@ -123,8 +123,24 @@ router.patch("/:email", async (req, res) => {
 
 // Get all the users
 router.get("/", async (req, res) => {
-  const users = Account.find();
-  res.status(200).json({ users });
+  try {
+    const list = await Account.find();
+    res.json(list);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+// Get a user profile
+router.get("/:email", async (req, res) => {
+  try {
+    const user = await Account.find({
+      email: req.params.email,
+    });
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
 });
 
 // Update admin rights
