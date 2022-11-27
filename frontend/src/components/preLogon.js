@@ -6,10 +6,12 @@ const Exercise = props => (
   <tr>
     <td>{props.exercise.name}</td>
     <td>{props.exercise.creator}</td>
-    <td>{props.exercise.duration}</td>
+    <td>{props.exercise.modifiedDate}</td>
+    <td>{props.exercise.playtime}</td>
+    <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.rating}</td>
     <td>
-      <Link to={"/edit/"+props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
+      <a href="#" onClick={() => { props.exerciseList(props.exercise.name) }}>expand</a>
     </td>
   </tr>
 )
@@ -18,33 +20,36 @@ export default class ExercisesList extends Component {
   constructor(props) {
     super(props);
 
-    this.deleteExercise = this.deleteExercise.bind(this)
+    this.expandList = this.expandList.bind(this)
 
-    this.state = {exercises: []};
+    this.state = {lists: []};
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/exercises/')
+    axios.get('http://localhost:5500/list/')
       .then(response => {
-        this.setState({ exercises: response.data })
+        this.setState({ lists: response.data })
       })
       .catch((error) => {
         console.log(error);
       })
   }
 
-  deleteExercise(id) {
-    axios.delete('http://localhost:5000/exercises/'+id)
-      .then(response => { console.log(response.data)});
-
-    this.setState({
-      exercises: this.state.exercises.filter(el => el._id !== id)
-    })
-  }
+  expandList(name) {
+    axios.get('http://localhost:5500/list/'+name)
+    .then(res => {
+      console.log(res.data)
+      const l = document.getElementById('list');
+      res.data.forEach(e => {
+        const item = document.createElement('li');
+        item.appendChild(document.createTextNode(` name: ${e.tracks}`))
+        l.appendChild(item);}
+         )}
+)}
 
   exerciseList() {
-    return this.state.exercises.map(currentexercise => {
-      return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
+    return this.state.lists.map(currentlist => {
+      return <Exercise exercise={currentlist} exerciseList={this.expandList} key={currentlist.name}/>;
     })
   }
 
@@ -58,16 +63,18 @@ export default class ExercisesList extends Component {
             <tr>
               <th>name</th>
               <th>creator</th>
-              <th>Duration</th>
-              <th>Date</th>
-              <th>tracks</th>
-              <th>average rating</th>
+              <th>modifiedDate</th>
+              <th>playtime</th>
+              <th>tracksNum</th>
+              <th>rating</th>
             </tr>
           </thead>
           <tbody>
             { this.exerciseList() }
           </tbody>
         </table>
+
+        <ol id="list"></ol>
       </div>
       
     )

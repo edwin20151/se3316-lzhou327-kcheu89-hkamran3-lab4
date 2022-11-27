@@ -8,7 +8,7 @@ const ListSchema = new Schema({
          required:true
     },
     name:{
-        type:Number,
+        type: String,
         required : true
     },
     creator:{
@@ -19,8 +19,12 @@ const ListSchema = new Schema({
         type:String,
         required:true
     },
-    tracks:{
+    tracksNum:{
         type:Number,
+        required:true
+    },
+    tracks:{
+        type:Array,
         required:true
     },
     rating:{
