@@ -49,9 +49,9 @@ export default class Search extends Component {
                     but.style.width = '8vh'
                     item.appendChild(but)
                     l.appendChild(item);
-                    but.onclick = window.open("https://www.youtube.com/results?search_query="+e.artist_name + e.track_title);
-                    l.appendChild(item);
+                    but.addEventListener('click',this.youtube) 
                 })}
+                
             res.data.forEach(e => {
                 const item = document.createElement('li');
                 item.appendChild(document.createTextNode(` trackname: ${e.track_title}, artistname:  ${e.artist_name}`))
@@ -64,13 +64,21 @@ export default class Search extends Component {
                 but.style.width = '8vh'
                 item.appendChild(but)
                 l.appendChild(item);
-                but.onclick = window.open("https://www.youtube.com/results?search_query="+e.artist_name + e.track_title);
-            })
+                but.addEventListener('click',this.youtube) 
+               
+            }
+          
+    
+            )
+            
             ;
           
             });
         }
-      
+      youtube(e){
+        var but = document.getElementById('but');
+        but.onclick = window.open("https://www.youtube.com/results?search_query="+e.artist_name + e.track_title);
+      }
     
       onChangealbum(e) {
         this.setState({
