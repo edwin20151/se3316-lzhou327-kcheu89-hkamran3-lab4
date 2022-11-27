@@ -22,7 +22,6 @@ function App() {
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
-      console.log(foundUser);
     } else {
       setUser(null);
     }

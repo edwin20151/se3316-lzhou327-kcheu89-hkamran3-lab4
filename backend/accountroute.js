@@ -143,17 +143,16 @@ router.get("/:email", async (req, res) => {
   }
 });
 
-// Update user's admin right
+// Grant admin to user
 router.patch("/admin/:email", async (req, res) => {
   try {
     const user = await Account.find({
-      username: req.body.username,
       email: req.params.email,
     }).count({ sent_at: null });
     if (user > 0) {
       const updatedAccount = await Account.updateMany(
         { email: req.params.email },
-        { $set: { isAdmin: req.body.isAdmin } }
+        { $set: { isAdmin: true } }
       );
       res.status(200).json(updatedAccount);
     } else {
@@ -168,7 +167,6 @@ router.patch("/admin/:email", async (req, res) => {
 router.patch("/status/:email", async (req, res) => {
   try {
     const user = await Account.find({
-      username: req.body.username,
       email: req.params.email,
     }).count({ sent_at: null });
     if (user > 0) {
