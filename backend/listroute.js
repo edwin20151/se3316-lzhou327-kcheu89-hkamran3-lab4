@@ -1,12 +1,19 @@
 const express = require('express');
+const list = require('./model/list');
 const router = express.Router();
 const List = require('./model/list');
 const Track = require('./model/track')
 
 router.get('/', async (req,res)=>{
+    List.find()
+    .then(lists => res.json(lists))
+    .catch(err => res.status(400).json('Error: '+ err));
+});
+
+router.get('/:list', async (req,res)=>{
     try{
       
-        const list = await List.find().limit(10);
+        const list = await List.find({name : req.params.list});
         
         res.json(list);
 
