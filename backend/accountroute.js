@@ -44,7 +44,11 @@ router.post("/login", async (req, res) => {
             .json({ accessToken: accessToken, refreshToken: refreshToken });
         }
       } else if (e.account == false) {
-        res.status(401).send("please contact the site administrator");
+        res
+          .status(401)
+          .send(
+            "Your account is deactivated. Please contact the site administrator in admin@admin.com"
+          );
       } else {
         res.status(404).send("wrong password");
       }
