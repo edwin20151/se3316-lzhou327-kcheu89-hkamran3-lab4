@@ -16,19 +16,19 @@ const Exercise = props => (
   </tr>
 )
 
-export default class PostLogon extends Component {
+export default class PreLogon extends Component {
   constructor(props) {
     super(props);
 
     this.expandList = this.expandList.bind(this)
 
-    this.state = {list: []};
+    this.state = {lists: []};
   }
 
   componentDidMount() {
     axios.get('http://localhost:5500/list/private')
       .then(response => {
-        this.setState({ list: response.data })
+        this.setState({ lists: response.data })
       })
       .catch((error) => {
         console.log(error);
@@ -36,7 +36,7 @@ export default class PostLogon extends Component {
   }
 
   expandList(name) {
-    axios.get('http://localhost:5500/list/'+name)
+    axios.post('http://localhost:5500/list/'+name)
     .then(res => {
       console.log(res.data)
       const l = document.getElementById('list');
@@ -48,7 +48,7 @@ export default class PostLogon extends Component {
 )}
 
   exerciseList() {
-    return this.state.list.map(currentlist => {
+    return this.state.lists.map(currentlist => {
       return <Exercise exercise={currentlist} exerciseList={this.expandList} key={currentlist.name}/>;
     })
   }
