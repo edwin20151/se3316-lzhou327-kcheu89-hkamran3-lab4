@@ -36,7 +36,7 @@ export default class PreLogon extends Component {
   }
 
   expandList(name) {
-    axios.post('http://localhost:5500/list/'+name)
+    axios.post('http://localhost:5500/list/public/'+name)
     .then(res => {
       console.log(res.data)
       const l = document.getElementById('list');
@@ -57,7 +57,7 @@ export default class PreLogon extends Component {
     return (
       <div>
         
-        <h3>Public Playlist</h3>
+        <h3>Private Playlist</h3>
         <table className="table">
           <thead className="thead-light">
             <tr>

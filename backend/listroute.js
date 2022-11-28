@@ -8,6 +8,8 @@ router.get("/public/", async (req, res) => {
   res.json(lists);
 });
 
+//expand all pulic and private list #dont change it 
+
 router.post("/public/:list", async (req, res) => {
   try {
     const list = await List.find({ name: req.params.list });
