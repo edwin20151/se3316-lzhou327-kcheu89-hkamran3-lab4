@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import AddReview from "./components/add-review";
-import Restaurant from "./components/postLogon";
+import Aboutus from "./components/about";
 import PreLogon from "./components/preLogon";
 import PostLogon from "./components/postLogon";
 import SignUp from "./components/signUp";
@@ -95,11 +94,11 @@ function App() {
           <Route exact path={["/", "/Homepage"]} component={PreLogon} />
           <Route
             path="/Homepage/aboutus"
-            render={(props) => <AddReview {...props} user={user} />}
+            render={(props) => <Aboutus {...props} user={user} />}
           />
           <Route
             path="/Homepage/:id"
-            render={(props) => <Restaurant {...props} user={user} />}
+            render={(props) => <PostLogon {...props} user={user} />}
           />
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />

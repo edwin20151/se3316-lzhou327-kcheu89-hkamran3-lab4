@@ -10,8 +10,10 @@ const Exercise = props => (
     <td>{props.exercise.playtime}</td>
     <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.rating}</td>
+    <td>{props.exercise.userEmail}</td>
     <td>
       <a href="#" onClick={() => { props.exerciseList(props.exercise.name) }}>expand</a>
+      
     </td>
   </tr>
 )
@@ -25,8 +27,8 @@ export default class PreLogon extends Component {
     this.state = {lists: []};
   }
 
-  componentDidMount() {
-    axios.get('http://localhost:5500/list/private/')
+  componentDidMount(userEmail) {
+    axios.get('http://localhost:5500/list/private/'+userEmail)
       .then(response => {
         this.setState({ lists: response.data })
       })
@@ -49,7 +51,7 @@ export default class PreLogon extends Component {
 
   exerciseList() {
     return this.state.lists.map(currentlist => {
-      return <Exercise exercise={currentlist} exerciseList={this.expandList} key={currentlist.name}/>;
+      return <Exercise exercise={currentlist} exerciseList={this.expandList} key={currentlist.name} />;
     })
   }
 
@@ -67,6 +69,7 @@ export default class PreLogon extends Component {
               <th>playtime</th>
               <th>tracksNum</th>
               <th>rating</th>
+             <th> userEmail</th>
             </tr>
           </thead>
           <tbody>
