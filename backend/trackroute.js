@@ -10,7 +10,7 @@ router.post('/search', async (req,res)=>{
         track_genres: req.body.track_genres,
         track_title: req.body.track_title,
     })
-        const track1 = await Track.find({album_title : {$regex : req.body.album_title}, track_title: {$regex: req.body.track_title}, artist_name: {$regex: req.body.artist_name}, track_genres : {$regex: req.body.track_genres}}).limit(20) ;
+        const track1 = await Track.find({album_title : {$regex : req.body.album_title}, track_title: {$regex: req.body.track_title}, artist_name: {$regex: req.body.artist_name}, track_genres : {$regex: req.body.track_genres}}).limit(50) ;
         
         res.json(track1)
 });
