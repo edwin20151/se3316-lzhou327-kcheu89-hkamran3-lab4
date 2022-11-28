@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Exercise = props => (
+const Exercise = (props) => (
   <tr>
     <td>{props.exercise.name}</td>
     <td>{props.exercise.creator}</td>
@@ -11,52 +11,65 @@ const Exercise = props => (
     <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.rating}</td>
     <td>
-      <a href="#" onClick={() => { props.exerciseList(props.exercise.name) }}>expand</a>
+      <a
+        href="#"
+        onClick={() => {
+          props.exerciseList(props.exercise.name);
+        }}
+      >
+        expand
+      </a>
     </td>
   </tr>
-)
+);
 
 export default class PreLogon extends Component {
   constructor(props) {
     super(props);
 
-    this.expandList = this.expandList.bind(this)
+    this.expandList = this.expandList.bind(this);
 
-    this.state = {lists: []};
+    this.state = { lists: [] };
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5500/list/')
-      .then(response => {
-        this.setState({ lists: response.data })
+    axios
+      .get("http://localhost:5500/list/public/")
+      .then((response) => {
+        this.setState({ lists: response.data });
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   }
 
   expandList(name) {
-    axios.post('http://localhost:5500/list/'+name)
-    .then(res => {
-      console.log(res.data)
-      const l = document.getElementById('list');
-      res.data.forEach(e => {
-        const item = document.createElement('li');
-        item.appendChild(document.createTextNode(` name: ${e.tracks}`))
-        l.appendChild(item);}
-         )}
-)}
+    axios.post("http://localhost:5500/public/list/" + name).then((res) => {
+      console.log(res.data);
+      const l = document.getElementById("list");
+      res.data.forEach((e) => {
+        const item = document.createElement("li");
+        item.appendChild(document.createTextNode(` name: ${e.tracks}`));
+        l.appendChild(item);
+      });
+    });
+  }
 
   exerciseList() {
-    return this.state.lists.map(currentlist => {
-      return <Exercise exercise={currentlist} exerciseList={this.expandList} key={currentlist.name}/>;
-    })
+    return this.state.lists.map((currentlist) => {
+      return (
+        <Exercise
+          exercise={currentlist}
+          exerciseList={this.expandList}
+          key={currentlist.name}
+        />
+      );
+    });
   }
 
   render() {
     return (
       <div>
-        
         <h3>Public Playlist</h3>
         <table className="table">
           <thead className="thead-light">
@@ -69,14 +82,11 @@ export default class PreLogon extends Component {
               <th>rating</th>
             </tr>
           </thead>
-          <tbody>
-            { this.exerciseList() }
-          </tbody>
+          <tbody>{this.exerciseList()}</tbody>
         </table>
 
         <ol id="list"></ol>
       </div>
-      
-    )
+    );
   }
 }
