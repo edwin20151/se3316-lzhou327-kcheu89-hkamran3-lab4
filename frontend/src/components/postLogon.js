@@ -26,7 +26,7 @@ export default class PreLogon extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5500/list/private')
+    axios.get('http://localhost:5500/list/private/')
       .then(response => {
         this.setState({ lists: response.data })
       })

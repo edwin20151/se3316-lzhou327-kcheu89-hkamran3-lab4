@@ -44,7 +44,7 @@ export default class PreLogon extends Component {
   }
 
   expandList(name) {
-    axios.post("http://localhost:5500/public/list/" + name).then((res) => {
+    axios.post("http://localhost:5500/list/public/" + name).then((res) => {
       console.log(res.data);
       const l = document.getElementById("list");
       res.data.forEach((e) => {
