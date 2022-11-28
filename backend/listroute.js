@@ -5,12 +5,11 @@ const List = require('./model/list');
 const Track = require('./model/track')
 
 router.get('/', async (req,res)=>{
-    List.find()
-    .then(lists => res.json(lists))
-    .catch(err => res.status(400).json('Error: '+ err));
+    const lists = await List.find({Public : true})
+    res.json(lists)
 });
 
-router.get('/:list', async (req,res)=>{
+router.post('/:list', async (req,res)=>{
     try{
       
         const list = await List.find({name : req.params.list});
@@ -22,6 +21,14 @@ router.get('/:list', async (req,res)=>{
         res.json({message: err});
 };
 });
+
+router.get('/private', async (req,res)=>{
+    const lists = await List.find({Public : false})
+    res.json(lists)
+});
+
+
+
 
 
 /*router.post('/', async (req,res)=>{

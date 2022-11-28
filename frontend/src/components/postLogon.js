@@ -1,13 +1,82 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+const Exercise = props => (
+  <tr>
+    <td>{props.exercise.name}</td>
+    <td>{props.exercise.creator}</td>
+    <td>{props.exercise.modifiedDate}</td>
+    <td>{props.exercise.playtime}</td>
+    <td>{props.exercise.tracksNum}</td>
+    <td>{props.exercise.rating}</td>
+    <td>
+      <a href="#" onClick={() => { props.exerciseList(props.exercise.name) }}>expand</a>
+    </td>
+  </tr>
+)
 
+export default class PostLogon extends Component {
+  constructor(props) {
+    super(props);
 
- function PostLogon(){
+    this.expandList = this.expandList.bind(this)
+
+    this.state = {list: []};
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5500/list/private')
+      .then(response => {
+        this.setState({ list: response.data })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
+  expandList(name) {
+    axios.get('http://localhost:5500/list/'+name)
+    .then(res => {
+      console.log(res.data)
+      const l = document.getElementById('list');
+      res.data.forEach(e => {
+        const item = document.createElement('li');
+        item.appendChild(document.createTextNode(` name: ${e.tracks}`))
+        l.appendChild(item);}
+         )}
+)}
+
+  exerciseList() {
+    return this.state.list.map(currentlist => {
+      return <Exercise exercise={currentlist} exerciseList={this.expandList} key={currentlist.name}/>;
+    })
+  }
+
+  render() {
     return (
-      <div id="background" className="backgroundContainer">
-          hi User
-      </div>
-    );
-}
+      <div>
+        
+        <h3>Public Playlist</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>name</th>
+              <th>creator</th>
+              <th>modifiedDate</th>
+              <th>playtime</th>
+              <th>tracksNum</th>
+              <th>rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.exerciseList() }
+          </tbody>
+        </table>
 
-export default PostLogon;
+        <ol id="list"></ol>
+      </div>
+      
+    )
+  }
+}

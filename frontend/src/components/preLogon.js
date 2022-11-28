@@ -16,7 +16,7 @@ const Exercise = props => (
   </tr>
 )
 
-export default class ExercisesList extends Component {
+export default class PreLogon extends Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +36,7 @@ export default class ExercisesList extends Component {
   }
 
   expandList(name) {
-    axios.get('http://localhost:5500/list/'+name)
+    axios.post('http://localhost:5500/list/'+name)
     .then(res => {
       console.log(res.data)
       const l = document.getElementById('list');

@@ -33,7 +33,7 @@ const ListSchema = new Schema({
   userEmail: {
     type: String,
   },
-  isPublic: {
+  Public: {
     type: Boolean,
     required: true,
   },
