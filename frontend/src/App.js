@@ -12,7 +12,7 @@ import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 import Search from "./components/search";
 
-
+import Admin from "./components/admin";
 
 function App() {
   const [user, setUser] = useState();
@@ -80,14 +80,22 @@ function App() {
               </Link>
             ) : null}
           </li>
+          <li className="nav-item">
+            {user && user.isAdmin ? (
+              <Link to={"/admin"} className="nav-link">
+                Admin
+              </Link>
+            ) : null}
+          </li>
         </div>
       </nav>
 
       <div className="container mt-3">
         <Switch>
-        <Route exact path={["/", "/Homepage"]} component={PreLogon} />
+          <Route exact path={["/", "/Homepage"]} component={PreLogon} />
           <Route
-            path="/Homepage/aboutus" render={(props) => <AddReview {...props} user={user} />}
+            path="/Homepage/aboutus"
+            render={(props) => <AddReview {...props} user={user} />}
           />
           <Route
             path="/Homepage/:id"
@@ -97,6 +105,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/search" component={Search} />
           <Route path="/password" component={ChangePassword} />
+          <Route path="/admin" component={Admin} />
           <Route path="/postlogon" component={PostLogon} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
         </Switch>

@@ -14,25 +14,28 @@ export default class Login extends Component {
       username: "",
       email: "",
       password: "",
+      isAdmin: false,
     };
   }
   login() {
+    console.log(this.checkAdmin(this.state.email));
     const user = {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
     };
-
     axios
       .post("http://localhost:5500/account/login", user)
       .then((res) => {
         if (res.status === 200) {
+          console.log(this.state.isAdmin);
           console.log("Signed in successfully");
           localStorage.setItem(
             "user",
             JSON.stringify({
               username: this.state.username,
               email: this.state.email,
+              isAdmin: this.state.isAdmin,
             })
           );
           this.props.history.push("/postlogon");
@@ -46,6 +49,26 @@ export default class Login extends Component {
           console.log("Error: ", err.response.status);
           document.getElementById("list").innerText =
             "Wrong password / usernames";
+        }
+      });
+  }
+
+  checkAdmin(email) {
+    axios
+      .get("http://localhost:5500/account/" + email)
+      .then((res) => {
+        console.log(res.data.user[0].isAdmin);
+        if (res.status === 200) {
+          this.setState({
+            isAdmin: res.data.user[0].isAdmin,
+          });
+        } else {
+          console.log("Unknown Error");
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          console.log("Error: ", err.response.status);
         }
       });
   }

@@ -44,7 +44,11 @@ router.post("/login", async (req, res) => {
             .json({ accessToken: accessToken, refreshToken: refreshToken });
         }
       } else if (e.account == false) {
-        res.status(401).send("please contact the site administrator");
+        res
+          .status(401)
+          .send(
+            "Your account is deactivated. Please contact the site administrator in admin@admin.com"
+          );
       } else {
         res.status(404).send("wrong password");
       }
@@ -97,6 +101,7 @@ router.patch("/auth/:confirmationCode", async (req, res) => {
   res.status(200).json(updatedAccount);
 });
 
+// Update password
 router.patch("/:email", async (req, res) => {
   try {
     const user = await Account.find({
@@ -111,6 +116,68 @@ router.patch("/:email", async (req, res) => {
         { $set: { password: hashedPassword } }
       );
 
+      res.status(200).json(updatedAccount);
+    } else {
+      res.status(404).send("not existed");
+    }
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
+});
+
+// Get all the users
+router.get("/", async (req, res) => {
+  try {
+    const list = await Account.find();
+    res.json(list);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+// Get a user profile
+router.get("/:email", async (req, res) => {
+  try {
+    const user = await Account.find({
+      email: req.params.email,
+    });
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
+});
+
+// Grant admin to user
+router.patch("/admin/:email", async (req, res) => {
+  try {
+    const user = await Account.find({
+      email: req.params.email,
+    }).count({ sent_at: null });
+    if (user > 0) {
+      const updatedAccount = await Account.updateMany(
+        { email: req.params.email },
+        { $set: { isAdmin: true } }
+      );
+      res.status(200).json(updatedAccount);
+    } else {
+      res.status(404).send("not existed");
+    }
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
+});
+
+// Update user's account status
+router.patch("/status/:email", async (req, res) => {
+  try {
+    const user = await Account.find({
+      email: req.params.email,
+    }).count({ sent_at: null });
+    if (user > 0) {
+      const updatedAccount = await Account.updateMany(
+        { email: req.params.email },
+        { $set: { account: req.body.isActivated } }
+      );
       res.status(200).json(updatedAccount);
     } else {
       res.status(404).send("not existed");

@@ -26,6 +26,10 @@ const AccountSchema = new Schema({
     type: String,
     unique: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("account", AccountSchema);
