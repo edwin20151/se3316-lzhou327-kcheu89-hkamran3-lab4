@@ -9,6 +9,7 @@ import Login from "./components/login";
 import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 import Search from "./components/search";
+import Legal from "./components/legal";
 import Admin from "./components/admin";
 import CreatList from "./components/createList"
 import EditList from "./components/edit"
@@ -116,6 +117,11 @@ function App() {
               </Link>
             ) : null}
           </li>
+          <li className="nav-item">
+            <Link to={"/legal"} className="nav-link">
+              Legal
+            </Link>
+          </li>
         </div>
       </nav>
 
@@ -137,6 +143,7 @@ function App() {
           <Route path="/addreivew/:name" component={AddReview} />
           <Route path="/reviewPage/" component={ReviewPage} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
+          <Route path="/legal" component={Legal} />
         </Switch>
       </div>
     </div>
