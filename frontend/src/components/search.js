@@ -64,21 +64,22 @@ export default class Search extends Component {
                 but.style.width = '8vh'
                 item.appendChild(but)
                 l.appendChild(item);
-                but.addEventListener('click',this.youtube) 
-               
+                but.addEventListener('click',youtube) 
+                function youtube(){
+                  res.data.forEach(e => {
+                  var but = document.getElementById('but');
+                  but.onclick = window.open("https://www.youtube.com/results?search_query="+e.artist_name + e.track_title);
+                })
+              }
             }
           
     
             )
             
-            ;
-          
-            });
+            
+        });
         }
-      youtube(e){
-        var but = document.getElementById('but');
-        but.onclick = window.open("https://www.youtube.com/results?search_query="+e.artist_name + e.track_title);
-      }
+     
     
       onChangealbum(e) {
         this.setState({
