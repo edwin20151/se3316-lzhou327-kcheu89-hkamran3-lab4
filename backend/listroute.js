@@ -8,7 +8,7 @@ router.get("/public/", async (req, res) => {
   res.json(lists);
 });
 
-//expand all pulic and private list #dont change it 
+//expand all pulic and private list #dont change it
 
 router.post("/public/:list", async (req, res) => {
   try {
@@ -63,9 +63,9 @@ router.delete("/:list", async (req, res) => {
   }
 });
 
-router.patch("/review/:track", async (req, res) => {
+router.patch("/review/:list", async (req, res) => {
   try {
-    const list = await List.find({ name: req.params.track }).count({
+    const list = await List.find({ name: req.params.list }).count({
       sent_at: null,
     });
     if (list > 0) {
