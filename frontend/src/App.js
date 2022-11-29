@@ -10,11 +10,12 @@ import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 import Search from "./components/search";
 import Legal from "./components/legal";
-import Admin from "./components/admin";
-import CreatList from "./components/createList"
-import EditList from "./components/edit"
-import AddReview from "./components/addreview"
+import CreatList from "./components/createList";
+import EditList from "./components/edit";
+import AddReview from "./components/addreview";
 import ReviewPage from "./components/reviewPage";
+import AdminAccount from "./components/adminAccount";
+import AdminLegal from "./components/adminLegal";
 
 function App() {
   const [user, setUser] = useState();
@@ -111,16 +112,23 @@ function App() {
             ) : null}
           </li>
           <li className="nav-item">
+            <Link to={"/legal"} className="nav-link">
+              Legal
+            </Link>
+          </li>
+          <li className="nav-item">
             {user && user.isAdmin ? (
-              <Link to={"/admin"} className="nav-link">
-                Admin
+              <Link to={"/admin/account"} className="nav-link">
+                Admin: Account
               </Link>
             ) : null}
           </li>
           <li className="nav-item">
-            <Link to={"/legal"} className="nav-link">
-              Legal
-            </Link>
+            {user && user.isAdmin ? (
+              <Link to={"/admin/legal"} className="nav-link">
+                Admin: Legal
+              </Link>
+            ) : null}
           </li>
         </div>
       </nav>
@@ -136,7 +144,6 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/search" component={Search} />
           <Route path="/password" component={ChangePassword} />
-          <Route path="/admin" component={Admin} />
           <Route path="/postlogon" component={PostLogon} />
           <Route path="/createList" component={CreatList} />
           <Route path="/edit/:name" component={EditList} />
@@ -144,6 +151,8 @@ function App() {
           <Route path="/reviewPage/" component={ReviewPage} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
           <Route path="/legal" component={Legal} />
+          <Route path="/admin/account" component={AdminAccount} />
+          <Route path="/admin/legal" component={AdminLegal} />
         </Switch>
       </div>
     </div>

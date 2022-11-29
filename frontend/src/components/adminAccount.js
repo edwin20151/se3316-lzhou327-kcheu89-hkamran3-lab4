@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Admin = () => {
+const AdminAccount = () => {
   const [users, setUsers] = useState([]);
   const [reviews, setReviews] = useState([]);
 
@@ -185,4 +185,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AdminAccount;
