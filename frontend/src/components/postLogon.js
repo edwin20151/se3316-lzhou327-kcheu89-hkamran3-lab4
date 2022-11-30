@@ -33,13 +33,14 @@ export default class PreLogon extends Component {
 
     this.expandList = this.expandList.bind(this);
 
-    this.state = { lists: [], userEmail: "" };
+    this.state = { lists: [] };
   }
 
   componentDidMount() {
-    this.setUserEmail();
+    const username = this.getUserNmae();
+    const email = this.getUserEmail();
     axios
-      .get("http://localhost:5500/list/private/" + this.state.userEmail)
+      .get("http://localhost:5500/list/private/" + email)
       .then((response) => {
         this.setState({ lists: response.data });
       })
@@ -72,13 +73,23 @@ export default class PreLogon extends Component {
     });
   }
 
-  setUserEmail() {
+  getUserNmae() {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       const user = JSON.parse(loggedInUser);
-      this.setState({ userEmail: user.email });
+      return user.username;
     } else {
-      console.log("User Login Error");
+      console.log("Get username Error");
+    }
+  }
+
+  getUserEmail() {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser);
+      return user.email;
+    } else {
+      console.log("Get email Error");
     }
   }
 

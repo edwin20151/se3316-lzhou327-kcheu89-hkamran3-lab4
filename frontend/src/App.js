@@ -10,7 +10,6 @@ import Login from "./components/login";
 import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 import Search from "./components/search";
-
 import Admin from "./components/admin";
 
 function App() {
@@ -39,6 +38,17 @@ function App() {
           Homepage
         </a>
         <div className="navbar-nav mr-auto">
+          <li className="nav-item">
+            {user ? (
+              <Link
+                to={"/postlogon"}
+                className="nav-link"
+                style={{ cursor: "pointer" }}
+              >
+                Private Playlist
+              </Link>
+            ) : null}
+          </li>
           <li className="nav-item">
             <Link to={"/Homepage/aboutus"} className="nav-link">
               About Us
