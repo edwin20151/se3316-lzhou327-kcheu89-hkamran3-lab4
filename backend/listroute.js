@@ -4,7 +4,7 @@ const List = require("./model/list");
 
 // Get all Public lists
 router.get("/public/", async (req, res) => {
-  const lists = await List.find({ Public: true });
+  const lists = await List.find({ Public: true }).sort({"modifiedDate":-1}).limit(10);
   res.json(lists);
 });
 
