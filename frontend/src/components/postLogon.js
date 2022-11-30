@@ -21,9 +21,6 @@ const Exercise = (props) => (
         expand
       </a>
     </td>
-    <td>
-      <button onClick={this.onDeleteList(props.exercise.name)}>Delete</button>
-    </td>
   </tr>
 );
 
@@ -91,17 +88,6 @@ export default class PreLogon extends Component {
     } else {
       console.log("Get email Error");
     }
-  }
-
-  onDeleteList(name) {
-    axios
-      .delete("http://localhost:5500/list/" + name)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
   render() {
