@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ListSchema = new Schema({
   modifiedDate: {
     type: Date,
-    required: true,
+    default: Date.now
   },
   name: {
     type: String,
