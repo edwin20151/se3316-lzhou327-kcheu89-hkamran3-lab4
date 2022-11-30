@@ -1,63 +1,86 @@
-const express = require('express');
-const list = require('./model/list');
+const express = require("express");
 const router = express.Router();
-const List = require('./model/list');
-const Track = require('./model/track')
+const List = require("./model/list");
 
-router.get('/', async (req,res)=>{
-    List.find()
-    .then(lists => res.json(lists))
-    .catch(err => res.status(400).json('Error: '+ err));
+// Get all Public lists
+router.get("/public/", async (req, res) => {
+  const lists = await List.find({ Public: true }).sort({"modifiedDate":-1}).limit(10);
+  res.json(lists);
 });
 
-router.get('/:list', async (req,res)=>{
-    try{
-      
-        const list = await List.find({name : req.params.list});
-        
-        res.json(list);
+//expand all pulic and private list #dont change it
 
-      
-    }catch(err){
-        res.json({message: err});
-};
+router.post("/public/:list", async (req, res) => {
+  try {
+    const list = await List.find({ name: req.params.list });
+
+    res.json(list);
+  } catch (err) {
+    res.json({ message: err });
+  }
 });
 
+// Get private lists for a user
+router.get("/private/:email", async (req, res) => {
+  const lists = await List.find({ Public: false, userEmail: req.params.email });
+  res.json(lists);
+});
 
-/*router.post('/', async (req,res)=>{
-    const track = new  Track({
-        track_id: req.body.track_id,
-        album_id: req.body.album_id,
-        album_title: req.body.album_title,
-        artist_id: req.body.artist_id,
-        artist_name: req.body.artist_name,
-        tags: req.body.tags,
-        track_date_created: req.body.track_date_created,
-        track_date_recorded: req.body.track_date_recorded,
-        track_duration: req.body.track_duration,
-        track_genres: req.body.track_genres,
-        track_number: req.body.track_number,
-        track_title: req.body.track_title,
-    })
+router.patch("/:track", async (req, res) => {
+  try {
+    const list = await List.find({ name: req.params.track }).count({
+      sent_at: null,
+    });
+    if (list > 0) {
+      const updatedList = await List.updateMany(
+        { name: req.params.track },
+        { $set: { tracks: req.body.tracks } }
+      );
 
-    const track1 = await Track.find({track_title : req.body.track_title}).count({sent_at: null});
-   
-     try{
-       
-        if(track1 == 0){
-            const savedTrack = await track.save();
-            res.json(savedTrack);
-          
-   }
-    else{
-        res.status(404).send('existed')
-        
+      res.json(updatedList);
+    } else {
+      res.status(404).send("not existed");
     }
-}
-   catch(err) {
-        res.json({message : err})
+  } catch (err) {
+    res.status(404).json({ message: err });
+  }
+});
+
+router.delete("/:list", async (req, res) => {
+  try {
+    const list = await List.find({ name: req.params.track }).count({
+      sent_at: null,
+    });
+
+    if (list > 0) {
+      const removeList = await List.remove({ name: req.params.track });
+      res.json(removeList);
+    } else {
+      res.status(404).send("not existed");
     }
-})*/
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
+router.patch("/review/:list", async (req, res) => {
+  try {
+    const list = await List.find({ name: req.params.list }).count({
+      sent_at: null,
+    });
+    if (list > 0) {
+      const updatedList = await List.updateMany(
+        { name: req.params.track },
+        { $set: { reviews: req.body.reviews } }
+      );
 
-module.exports= router;
+      res.json(updatedList);
+    } else {
+      res.status(404).send("not existed");
+    }
+  } catch (err) {
+    res.status(404).json({ message: err });
+  }
+});
+
+module.exports = router;
