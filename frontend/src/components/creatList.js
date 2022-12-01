@@ -9,6 +9,7 @@ export default class CreateList extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangetracks = this.onChangetracks.bind(this);
     this.onChangeplaytime = this.onChangeplaytime.bind(this);
+    this.onChangedescription = this.onChangedescription.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this)
 
@@ -18,8 +19,9 @@ export default class CreateList extends Component {
     name :  '',
     playtime  : '',
     tracksNum : '',
-    tracks : [],
-    isToggleOn: false
+    tracks : '',
+    isToggleOn: false,
+    description : ''
     }
   }
 
@@ -28,6 +30,12 @@ export default class CreateList extends Component {
     this.setState(state => ({
         isToggleOn: !state.isToggleOn
     }))
+  }
+
+  onChangedescription(e){
+    this.setState({
+      description : e.target.value
+    })
   }
 
   onChangeName(e){
@@ -53,7 +61,6 @@ export default class CreateList extends Component {
 
   onSubmit(e){
     e.preventDefault();
-
     const list =  {
         creator : this.getUserNmae(),
         userEmail: this.getUserEmail(),
@@ -61,15 +68,17 @@ export default class CreateList extends Component {
         playtime  : this.state.playtime,
         tracksNum : this.state.tracks.length,
         tracks : this.state.tracks,
-        Public : this.state.isToggleOn
+        Public : this.state.isToggleOn,
+        description : this.state.description
     }
+
 
    
     
     axios.post("http://localhost:5500/list", list).then((res) => {
        console.log("saved successfully");
         
-        window.location = '/postlogon'
+       window.location = '/postlogon'
 }) 
     
 };
@@ -133,8 +142,17 @@ export default class CreateList extends Component {
                 value={this.state.playtime}
                 onChange={this.onChangeplaytime}
               />
-                            
 
+            
+                <input
+                type="text"
+                name="description"
+                id="description-f"
+                class="description-f-input"
+                placeholder="description"
+                value={this.state.description}
+                onChange={this.onChangedescription}
+              /> 
                 
               <div class="buttonContainer">
                 <input

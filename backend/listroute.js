@@ -22,7 +22,7 @@ router.post("/public/:list", async (req, res) => {
 
 // Get private lists for a user
 router.get("/private/:email", async (req, res) => {
-  const lists = await List.find({ Public: false, userEmail: req.params.email });
+  const lists = await List.find({ Public: false, userEmail: req.params.email }).limit(20);
   res.json(lists);
 });
 
@@ -48,17 +48,10 @@ router.patch("/:track", async (req, res) => {
 
 router.delete("/:list", async (req, res) => {
   try {
-    const list = await List.find({ name: req.params.track }).count({
-      sent_at: null,
-    });
-
-    if (list > 0) {
-      const removeList = await List.remove({ name: req.params.track });
+      const removeList = await List.remove({ name: req.params.list});
       res.json(removeList);
-    } else {
-      res.status(404).send("not existed");
-    }
-  } catch (err) {
+    } 
+  catch (err) {
     res.json({ message: err });
   }
 });
@@ -92,9 +85,11 @@ router.post('/', async (req,res)=>{
       tracks: req.body.tracks,
       userEmail: req.body.userEmail,
       Public: req.body.Public,
+      description : req.body.description
   })
 
   const list1 = await List.find({name : req.body.name}).count({sent_at: null});
+
  
    try{
       if(list1 == 0){
@@ -102,7 +97,7 @@ router.post('/', async (req,res)=>{
           res.json(savedList);
         
  }
-  else{
+  else {
       res.status(404).send('existed')
       
   }
