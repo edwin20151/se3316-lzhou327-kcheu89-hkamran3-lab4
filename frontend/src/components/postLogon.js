@@ -37,12 +37,11 @@ export default class PreLogon extends Component {
     super(props);
 
     this.expandList = this.expandList.bind(this);
-
+    this.deleteList = this.deleteList.bind(this);
     this.state = { lists: [] };
   }
 
   componentDidMount() {
-    const username = this.getUserNmae();
     const email = this.getUserEmail();
     axios
       .get("http://localhost:5500/list/private/" + email)
@@ -91,22 +90,13 @@ export default class PreLogon extends Component {
         <Exercise
           exercise={currentlist}
           exerciseList={this.expandList}
-          key={currentlist.name}
-        />
-      );
-    });
-  }
-  changeList() {
-    return this.state.lists.map((currentlist) => {
-      return (
-        <Exercise
-          exercise={currentlist}
           changeList={this.deleteList}
           key={currentlist.name}
         />
       );
     });
   }
+
 
   getUserNmae() {
     const loggedInUser = localStorage.getItem("user");
@@ -143,7 +133,8 @@ export default class PreLogon extends Component {
               <th> userEmail</th>
             </tr>
           </thead>
-          <tbody>{this.exerciseList()} , {this.changeList()}</tbody>
+          <tbody>{this.exerciseList()}</tbody>
+          
          
         </table>
 
