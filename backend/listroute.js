@@ -83,4 +83,33 @@ router.patch("/review/:list", async (req, res) => {
   }
 });
 
+router.post('/', async (req,res)=>{
+  const list = new  List({
+      name: req.body.name,
+      creator: req.body.creator,
+      playtime: req.body.playtime,
+      tracksNum: req.body.tracksNum,
+      tracks: req.body.tracks,
+      userEmail: req.body.userEmail,
+      Public: req.body.Public,
+  })
+
+  const list1 = await List.find({name : req.body.name}).count({sent_at: null});
+ 
+   try{
+      if(list1 == 0){
+          const savedList = await list.save();
+          res.json(savedList);
+        
+ }
+  else{
+      res.status(404).send('existed')
+      
+  }
+}
+ catch(err) {
+      res.json({message : err})
+  }
+})
+
 module.exports = router;
