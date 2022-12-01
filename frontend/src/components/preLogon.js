@@ -43,36 +43,36 @@ export default class PreLogon extends Component {
       });
   }
 
-
-expandList(name) {
-  axios.post("http://localhost:5500/list/public/" + name).then((res) => {
-    console.log(res.data);
-    const l = document.getElementById("list");
-    res.data.forEach((e) => {
-      const item = document.createElement("li");
-      item.appendChild(document.createTextNode(` name: ${e.tracks}`));
-      l.appendChild(item);
-      var but = document.createElement('button');
-        but.innerHTML = 'YouTube';
-        but.style.fontWeight = 'bold';
-        but.style.backgroundColor = 'red'
-        but.style.color = 'white';
-        but.style.height = '4vh'
-        but.style.width = '8vh'
-        item.appendChild(but)
+  expandList(name) {
+    axios.post("http://localhost:5500/list/public/" + name).then((res) => {
+      console.log(res.data);
+      const l = document.getElementById("list");
+      res.data.forEach((e) => {
+        const item = document.createElement("li");
+        item.appendChild(document.createTextNode(` name: ${e.tracks}`));
         l.appendChild(item);
-        but.addEventListener('click',youtube) 
-        
-        function youtube(){
-          res.data.forEach(e => {  
-          var but = document.getElementById('but');
-          but.onclick = window.open("https://www.youtube.com/results?search_query="+e.tracks);
-    });
-  }}
-  );
-})
-}
+        var but = document.createElement("button");
+        but.innerHTML = "YouTube";
+        but.style.fontWeight = "bold";
+        but.style.backgroundColor = "red";
+        but.style.color = "white";
+        but.style.height = "4vh";
+        but.style.width = "8vh";
+        item.appendChild(but);
+        l.appendChild(item);
+        but.addEventListener("click", youtube);
 
+        function youtube() {
+          res.data.forEach((e) => {
+            var but = document.getElementById("but");
+            but.onclick = window.open(
+              "https://www.youtube.com/results?search_query=" + e.tracks
+            );
+          });
+        }
+      });
+    });
+  }
 
   exerciseList() {
     return this.state.lists.map((currentlist) => {
@@ -89,6 +89,16 @@ expandList(name) {
   render() {
     return (
       <div>
+        <h2>Lab4 Music Web</h2>
+        <div className="App">
+          Our Website is here to help users experience the best possible musical
+          experience in the most organized manner. We allow you to access
+          artists, albums, tracks and genres as well as being able to create a
+          custom list of tracks. Our goal is for the user to be able to do
+          whatever function they want when it pertains to music, whether thats
+          giving their opinions or saving their favourite songs. We are here to
+          stay and we hope you join us in the journey.
+        </div>
         <h3>Public Playlist</h3>
         <table className="table">
           <thead className="thead-light">

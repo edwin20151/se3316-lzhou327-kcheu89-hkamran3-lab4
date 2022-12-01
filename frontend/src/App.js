@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Aboutus from "./components/about";
 import PreLogon from "./components/preLogon";
 import PostLogon from "./components/postLogon";
 import SignUp from "./components/signUp";
@@ -48,11 +47,6 @@ function App() {
                 Private Playlist
               </Link>
             ) : null}
-          </li>
-          <li className="nav-item">
-            <Link to={"/Homepage/aboutus"} className="nav-link">
-              About Us
-            </Link>
           </li>
           <li className="nav-item">
             <Link to={"/search"} className="nav-link">
@@ -102,10 +96,6 @@ function App() {
       <div className="container mt-3">
         <Switch>
           <Route exact path={["/", "/Homepage"]} component={PreLogon} />
-          <Route
-            path="/Homepage/aboutus"
-            render={(props) => <Aboutus {...props} user={user} />}
-          />
           <Route
             path="/Homepage/:id"
             render={(props) => <PostLogon {...props} user={user} />}
