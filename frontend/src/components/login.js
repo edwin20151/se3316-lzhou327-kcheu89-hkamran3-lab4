@@ -36,6 +36,7 @@ export default class Login extends Component {
               username: this.state.username,
               email: this.state.email,
               isAdmin: this.state.isAdmin,
+              isGoogleSign: false,
             })
           );
           this.props.history.push("/postlogon");

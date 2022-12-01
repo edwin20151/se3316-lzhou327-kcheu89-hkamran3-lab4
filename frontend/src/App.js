@@ -77,7 +77,7 @@ function App() {
             )}
           </li>
           <li className="nav-item">
-            {user ? (
+            {user && !user.isGoogleSign ? (
               <Link to={"/password"} className="nav-link">
                 Change Password
               </Link>
