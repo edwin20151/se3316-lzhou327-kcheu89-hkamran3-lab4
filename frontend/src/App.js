@@ -11,6 +11,7 @@ import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 import Search from "./components/search";
 import Admin from "./components/admin";
+import CreatList from "./components/creatList"
 
 function App() {
   const [user, setUser] = useState();
@@ -46,6 +47,17 @@ function App() {
                 style={{ cursor: "pointer" }}
               >
                 Private Playlist
+              </Link>
+            ) : null}
+          </li>
+          <li className="nav-item">
+            {user ? (
+              <Link
+                to={"/creat"}
+                className="nav-link"
+                style={{ cursor: "pointer" }}
+              >
+                Create
               </Link>
             ) : null}
           </li>
@@ -116,6 +128,7 @@ function App() {
           <Route path="/password" component={ChangePassword} />
           <Route path="/admin" component={Admin} />
           <Route path="/postlogon" component={PostLogon} />
+          <Route path="/creat" component={CreatList} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
         </Switch>
       </div>

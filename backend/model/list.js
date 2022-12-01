@@ -28,7 +28,6 @@ const ListSchema = new Schema({
   },
   rating: {
     type: Number,
-    required: true,
   },
   userEmail: {
     type: String,
