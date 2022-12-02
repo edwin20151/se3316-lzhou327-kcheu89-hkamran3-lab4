@@ -52,6 +52,7 @@ expandList(name) {
       const item = document.createElement("li");
       item.appendChild(document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`));
       l.appendChild(item);
+      for(let i=0 ; i<e.tracksNum ; i++){
       var but = document.createElement('button');
         but.innerHTML = 'YouTube';
         but.style.fontWeight = 'bold';
@@ -62,18 +63,21 @@ expandList(name) {
         item.appendChild(but)
         l.appendChild(item);
         
-        but.addEventListener("click", youtube);
+        but.addEventListener("click", ()=>{
+          
+            res.data.forEach((e) => {
+                window.open(
+                  "https://www.youtube.com/results?search_query=" +
+                    e.tracks[i]
+                );
+              }
+    )}
+        )};
 
-        function youtube() {
-          res.data.forEach((e) => {
-            var but = document.getElementById("but");
-            but.onclick = window.open(
-              "https://www.youtube.com/results?search_query=" + e.tracks
-            );
-          });
-        }
+        
+        })
       });
-    });
+    
   }
 
   exerciseList() {
