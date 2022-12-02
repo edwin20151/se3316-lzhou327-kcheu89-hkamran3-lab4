@@ -11,7 +11,7 @@ const Exercise = (props) => (
     <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.userEmail}</td>
     <td>
-      <Link to={'/edit/'+props.exercise.name}>edit</Link> |
+      <Link to={"/edit/" + props.exercise.name}>edit</Link> |
       <a
         href="#"
         onClick={() => {
@@ -60,26 +60,35 @@ export default class PreLogon extends Component {
       const l = document.getElementById("list");
       res.data.forEach((e) => {
         const item = document.createElement("li");
-        item.appendChild(document.createTextNode(` name: ${e.tracks}      Description: ${e.description}`));
+        item.appendChild(
+          document.createTextNode(
+            ` name: ${e.tracks}      Description: ${e.description}`
+          )
+        );
         l.appendChild(item);
       });
     });
   }
 
   deleteList(name) {
-    axios.delete("http://localhost:5500/list/" + name).then((res) => {
-      
-      window.location.reload();
+    if (window.confirm("Confirm to delete this playlist?")) {
+      axios.delete("http://localhost:5500/list/" + name).then((res) => {
+        window.location.reload();
       });
-    };
-  
+    }
+  }
+
   editList(name) {
     axios.patch("http://localhost:5500/list/" + name).then((res) => {
       console.log(res.data);
       const l = document.getElementById("list");
       res.data.forEach((e) => {
         const item = document.createElement("li");
-        item.appendChild(document.createTextNode(` name: ${e.tracks}      Description: ${e.description}`));
+        item.appendChild(
+          document.createTextNode(
+            ` name: ${e.tracks}      Description: ${e.description}`
+          )
+        );
         l.appendChild(item);
       });
     });
@@ -97,7 +106,6 @@ export default class PreLogon extends Component {
       );
     });
   }
-
 
   getUserNmae() {
     const loggedInUser = localStorage.getItem("user");
@@ -135,8 +143,6 @@ export default class PreLogon extends Component {
             </tr>
           </thead>
           <tbody>{this.exerciseList()}</tbody>
-          
-         
         </table>
 
         <ol id="list"></ol>
