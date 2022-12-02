@@ -17,7 +17,7 @@ export default class CreateList extends Component {
 
     this.state={
     name :  '',
-    playtime  : '',
+    playtime  : 0,
     tracksNum : '',
     tracks : '',
     isToggleOn: false,

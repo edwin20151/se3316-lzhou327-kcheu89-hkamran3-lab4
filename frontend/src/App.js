@@ -12,6 +12,8 @@ import Welcome from "./components/welcome";
 import Search from "./components/search";
 import Admin from "./components/admin";
 import CreatList from "./components/creatList"
+import EditList from "./components/edit"
+import AddReview from "./components/addreview"
 
 function App() {
   const [user, setUser] = useState();
@@ -129,6 +131,8 @@ function App() {
           <Route path="/admin" component={Admin} />
           <Route path="/postlogon" component={PostLogon} />
           <Route path="/creat" component={CreatList} />
+          <Route path="/edit/:name" component={EditList} />
+          <Route path="/addreivew/:name" component={AddReview} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
         </Switch>
       </div>

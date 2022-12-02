@@ -11,6 +11,7 @@ const Exercise = (props) => (
     <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.rating}</td>
     <td>
+    <Link to={'/addreivew/'+props.exercise.name}> add review </Link> |
       <a
         href="#"
         onClick={() => {
@@ -50,7 +51,7 @@ expandList(name) {
     const l = document.getElementById("list");
     res.data.forEach((e) => {
       const item = document.createElement("li");
-      item.appendChild(document.createTextNode(` name: ${e.tracks}`));
+      item.appendChild(document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`));
       l.appendChild(item);
       var but = document.createElement('button');
         but.innerHTML = 'YouTube';
