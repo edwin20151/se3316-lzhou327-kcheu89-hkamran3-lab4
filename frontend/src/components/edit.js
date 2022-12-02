@@ -1,151 +1,174 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
+
 
 export default class EditList extends Component {
-  constructor(props) {
+  constructor(props){
+    
     super(props);
-
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeDuration = this.onChangeDuration.bind(this);
-    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangetracks = this.onChangetracks.bind(this);
+    this.onChangeplaytime = this.onChangeplaytime.bind(this);
+    this.onChangedescription = this.onChangedescription.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this)
 
-    this.state = {
-      username: '',
-      description: '',
-      duration: 0,
-      date: new Date(),
-      users: []
+
+
+    this.state={
+    name :  '',
+    playtime  : 0,
+    tracks : [],
+    isToggleOn: false,
+    description : ''
     }
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/exercises/'+this.props.match.params.id)
+    axios.get("http://localhost:5500/list/" + this.props.match.params.name)
       .then(response => {
-        this.setState({
-          username: response.data.username,
-          description: response.data.description,
-          duration: response.data.duration,
-          date: new Date(response.data.date)
-        })   
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-
-    axios.get('http://localhost:5000/users/')
-      .then(response => {
-        if (response.data.length > 0) {
-          this.setState({
-            users: response.data.map(user => user.username),
-          })
-        }
+        this.setState(
+          {
+          name : response.data.name,
+          description : response.data.description,
+          playtime : response.data.playtime,
+          tracks : response.data.tracks,
+          isToggleOn : response.data.isToggleOn
+        })
       })
       .catch((error) => {
         console.log(error);
-      })
-
+      });
   }
 
-  onChangeUsername(e) {
+  getUserEmail() {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser);
+      return user.email;
+    } else {
+      console.log("Get email Error");
+    }
+  }
+
+  handleClick(){
+    this.setState(state => ({
+        isToggleOn: !state.isToggleOn
+    }))
+  }
+
+  onChangedescription(e){
     this.setState({
-      username: e.target.value
+      description : e.target.value
     })
   }
 
-  onChangeDescription(e) {
+  onChangeName(e){
     this.setState({
-      description: e.target.value
-    })
+        name: e.target.value
+    });
   }
 
-  onChangeDuration(e) {
+  onChangetracks(e){
+    const track = e.target.value.split(',')
     this.setState({
-      duration: e.target.value
-    })
+     tracks: [track]
+    });
   }
 
-  onChangeDate(date) {
+
+  onChangeplaytime(e){
     this.setState({
-      date: date
-    })
+        playtime: e.target.value
+    });
   }
 
-  onSubmit(e) {
+
+  onSubmit(e){
     e.preventDefault();
-
-    const exercise = {
-      username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
-      date: this.state.date
+    const list =  {
+        name :  this.state.name,
+        playtime  : this.state.playtime,
+        tracksNum : this.state.tracks.length,
+        tracks : this.state.tracks,
+        Public : this.state.isToggleOn,
+        description : this.state.description
     }
 
-    console.log(exercise);
+    axios.patch("http://localhost:5500/list/" + this.props.match.params.name, list).then((res) => {
+       console.log("saved successfully");
+        
+       window.location = '/postlogon'
+}) 
+    
+};
+   
 
-    axios.post('http://localhost:5000/exercises/update/' + this.props.match.params.id, exercise)
-      .then(res => console.log(res.data));
-
-    window.location = '/';
-  }
 
   render() {
+    
     return (
-    <div>
-      <h3>Edit Exercise Log</h3>
-      <form onSubmit={this.onSubmit}>
-        <div className="form-group"> 
-          <label>Username: </label>
-          <select ref="userInput"
-              required
-              className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUsername}>
-              {
-                this.state.users.map(function(user) {
-                  return <option 
-                    key={user}
-                    value={user}>{user}
-                    </option>;
-                })
-              }
-          </select>
-        </div>
-        <div className="form-group"> 
-          <label>Description: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.description}
-              onChange={this.onChangeDescription}
+      <div id="background" className="backgroundContainer">
+        <div id="form" className="formContainer">
+          <h1 id="login">Add review</h1>
+          <form onSubmit={this.onSubmit}>
+            <div id="loginpage" class="login">
+              <input
+                type="text"
+                name="name"
+                id="name-f"
+                class="name-f-input"
+                placeholder="name"
+                value={this.state.name}
+                onChange={this.onChangeName}
               />
-        </div>
-        <div className="form-group">
-          <label>Duration (in minutes): </label>
-          <input 
-              type="text" 
-              className="form-control"
-              value={this.state.duration}
-              onChange={this.onChangeDuration}
+              <input
+                type="text"
+                name="tracks"
+                id="tracks-f"
+                class="tracks-f-input"
+                placeholder="tracks"
+                value={this.state.tracks}
+                onChange={this.onChangetracks}
               />
-        </div>
-        <div className="form-group">
-          <label>Date: </label>
-          <div>
-            <DatePicker
-              selected={this.state.date}
-              onChange={this.onChangeDate}
-            />
-          </div>
-        </div>
+              <input
+                type="text"
+                name="playtime"
+                id="playtime-f"
+                class="playtime-f-input"
+                placeholder="playtime"
+                value={this.state.playtime}
+                onChange={this.onChangeplaytime}
+              />
 
-        <div className="form-group">
-          <input type="submit" value="Edit Exercise Log" className="btn btn-primary" />
+            
+                <input
+                type="text"
+                name="description"
+                id="description-f"
+                class="description-f-input"
+                placeholder="description"
+                value={this.state.description}
+                onChange={this.onChangedescription}
+              /> 
+                
+              <div class="buttonContainer">
+                <input
+                  type="submit"
+                  value="edit"
+                  className="btn btn-primary"
+                />
+              </div>
+
+            </div>
+          </form>
+          <a> IsPublic?</a>
+          <button onClick={this.handleClick}>
+                    {this.state.isToggleOn ? "true" : "false"}
+                </button>
+          <ol id="list"></ol>
         </div>
-      </form>
-    </div>
-    )
+      </div>
+    );
   }
 }

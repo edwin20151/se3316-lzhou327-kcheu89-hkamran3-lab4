@@ -10,7 +10,9 @@ import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 import Search from "./components/search";
 import Admin from "./components/admin";
-import CreateList from "./components/createList";
+import CreatList from "./components/creatList"
+import EditList from "./components/edit"
+import AddReview from "./components/addreview"
 
 function App() {
   const [user, setUser] = useState();
@@ -118,7 +120,9 @@ function App() {
           <Route path="/password" component={ChangePassword} />
           <Route path="/admin" component={Admin} />
           <Route path="/postlogon" component={PostLogon} />
-          <Route path="/createList" component={CreateList} />
+          <Route path="/creat" component={CreatList} />
+          <Route path="/edit/:name" component={EditList} />
+          <Route path="/addreivew/:name" component={AddReview} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
         </Switch>
       </div>

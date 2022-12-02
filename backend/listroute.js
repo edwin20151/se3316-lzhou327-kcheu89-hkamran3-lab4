@@ -20,6 +20,16 @@ router.post("/public/:list", async (req, res) => {
   }
 });
 
+router.get("/:list", async (req, res) => {
+  try {
+    const list = await List.find({ name: req.params.list });
+
+    res.json(list);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 // Get private lists for a user
 router.get("/private/:email", async (req, res) => {
   const lists = await List.find({ Public: false, userEmail: req.params.email }).limit(20);
@@ -34,7 +44,14 @@ router.patch("/:track", async (req, res) => {
     if (list > 0) {
       const updatedList = await List.updateMany(
         { name: req.params.track },
-        { $set: { tracks: req.body.tracks } }
+        { $set: { name: req.body.name,
+        
+          playtime: req.body.playtime,
+
+          tracks: req.body.tracks,
+          
+          Public: req.body.Public,
+          description : req.body.description} }
       );
 
       res.json(updatedList);
@@ -58,19 +75,14 @@ router.delete("/:list", async (req, res) => {
 
 router.patch("/review/:list", async (req, res) => {
   try {
-    const list = await List.find({ name: req.params.list }).count({
-      sent_at: null,
-    });
-    if (list > 0) {
+  
       const updatedList = await List.updateMany(
-        { name: req.params.track },
+        { name: req.params.list },
         { $set: { reviews: req.body.reviews } }
       );
 
       res.json(updatedList);
-    } else {
-      res.status(404).send("not existed");
-    }
+    
   } catch (err) {
     res.status(404).json({ message: err });
   }

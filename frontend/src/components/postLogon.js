@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Exercise = (props) => (
@@ -11,6 +11,7 @@ const Exercise = (props) => (
     <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.userEmail}</td>
     <td>
+      <Link to={'/edit/'+props.exercise.name}>edit</Link> |
       <a
         href="#"
         onClick={() => {
