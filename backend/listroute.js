@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const List = require("./model/list");
+const Track = require("./model/track")
 
 // Get all Public lists
 router.get("/public/", async (req, res) => {
@@ -23,7 +24,6 @@ router.post("/public/:list", async (req, res) => {
 router.get("/:list", async (req, res) => {
   try {
     const list = await List.find({ name: req.params.list });
-
     res.json(list);
   } catch (err) {
     res.json({ message: err });
@@ -32,16 +32,16 @@ router.get("/:list", async (req, res) => {
 
 // Get private lists for a user
 router.get("/private/:email", async (req, res) => {
-  const lists = await List.find({ Public: false, userEmail: req.params.email }).limit(20);
+  const lists = await List.find({ Public: false, userEmail: req.params.email }).limit(20).sort({"modifiedDate" : -1});
   res.json(lists);
 });
 
 router.patch("/:track", async (req, res) => {
   try {
     const list = await List.find({ name: req.params.track }).count({
-      sent_at: null,
-    });
-    if (list > 0) {
+      sent_at: null});
+    
+    if (list > 0 ) {
       const updatedList = await List.updateMany(
         { name: req.params.track },
         { $set: { name: req.body.name,
@@ -103,9 +103,10 @@ router.post('/', async (req,res)=>{
 
   const list1 = await List.find({name : req.body.name}).count({sent_at: null});
 
- 
+  const track = await Track.find({ track_title : req.body.tracks }).count({
+    sent_at: null})
    try{
-      if(list1 == 0){
+      if(list1 == 0 && track > 0){
           const savedList = await list.save();
           res.json(savedList);
         
