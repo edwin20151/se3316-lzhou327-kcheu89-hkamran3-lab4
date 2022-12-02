@@ -110,7 +110,7 @@ export default class EditList extends Component {
     return (
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
-          <h1 id="login">Add review</h1>
+          <h1 id="login">Edit List</h1>
           <form onSubmit={this.onSubmit}>
             <div id="loginpage" class="login">
               <input
