@@ -71,7 +71,8 @@ router.post("/edit/:track", async (req, res) => {
             playtime: time,
             Public: req.body.Public,
             description: req.body.description,
-          },
+            modifiedDate : new Date()
+          }
         }
       );
       res.json(updatedList);
