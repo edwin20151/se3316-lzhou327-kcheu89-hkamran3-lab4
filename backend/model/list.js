@@ -28,7 +28,6 @@ const ListSchema = new Schema({
   },
   rating: {
     type: Number,
-    required: true,
   },
   userEmail: {
     type: String,
@@ -43,6 +42,9 @@ const ListSchema = new Schema({
   reviews: {
     type: Array,
   },
+  description:{
+    type : String
+  }
 });
 
 module.exports = mongoose.model("list", ListSchema);

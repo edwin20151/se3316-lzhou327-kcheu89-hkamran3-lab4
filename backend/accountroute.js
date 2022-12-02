@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
             "Your account is deactivated. Please contact the site administrator in admin@admin.com"
           );
       } else {
-        res.status(404).send("");
+        res.status(404).send();
       }
     });
   }
