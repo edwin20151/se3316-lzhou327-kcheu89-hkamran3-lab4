@@ -50,7 +50,10 @@ router.post("/edit/:track", async (req, res) => {
     const list = await List.find({ name: req.params.track }).count({
       sent_at: null,
     });
-    if (list > 0 && track > 0) {
+    const list1 = await List.find({ name: req.body.name }).count({
+      sent_at: null,
+    });
+    if (list == 1 && list1 == 0 && track > 0) {
       let tracks_duration = 0;
       for (let i = 0; i < track1.length; i++) {
         const durArr = track1[i].track_duration.split(":");
