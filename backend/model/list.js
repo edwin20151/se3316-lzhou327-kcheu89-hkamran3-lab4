@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ListSchema = new Schema({
   modifiedDate: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   name: {
     type: String,
@@ -15,7 +15,7 @@ const ListSchema = new Schema({
     required: true,
   },
   playtime: {
-    type: String
+    type: String,
   },
   tracksNum: {
     type: Number,
@@ -26,7 +26,7 @@ const ListSchema = new Schema({
     required: true,
   },
   rating: {
-    type: Number,
+    type: Array,
   },
   userEmail: {
     type: String,
@@ -41,9 +41,9 @@ const ListSchema = new Schema({
   reviews: {
     type: Array,
   },
-  description:{
-    type : String
-  }
+  description: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("list", ListSchema);

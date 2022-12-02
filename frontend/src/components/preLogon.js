@@ -9,7 +9,7 @@ const Exercise = (props) => (
     <td>{props.exercise.modifiedDate}</td>
     <td>{props.exercise.playtime}</td>
     <td>{props.exercise.tracksNum}</td>
-    <td>{props.exercise.rating}</td>
+    <td>{props.exercise.avgRating}</td>
     <td>
       <a
         href="#"
@@ -36,6 +36,14 @@ export default class PreLogon extends Component {
     axios
       .get("http://localhost:5500/list/public/")
       .then((response) => {
+        response.data.forEach((e) => {
+          if (e.rating.length > 0) {
+            e.avgRating =
+              Math.round(
+                (e.rating.reduce((a, b) => a + b, 0) / e.rating.length) * 100
+              ) / 100;
+          }
+        });
         this.setState({ lists: response.data });
       })
       .catch((error) => {

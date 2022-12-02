@@ -1,56 +1,50 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-
+import React, { Component } from "react";
+import axios from "axios";
 
 export default class Addreivew extends Component {
-  constructor(props){
-    
+  constructor(props) {
     super(props);
     this.onChangeReview = this.onChangeReview.bind(this);
     this.onChangeRating = this.onChangeRating.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
-
-
-    this.state={
-        reviews : [],
-        rating : 0
-    }
+    this.state = {
+      reviews: "",
+      rating: 0,
+    };
   }
 
-
-
-  onChangeReview(e){
+  onChangeReview(e) {
     this.setState({
-        reviews: e.target.value
+      reviews: e.target.value,
     });
   }
-  onChangeRating(e){
+  onChangeRating(e) {
     this.setState({
-        rating: e.target.value
+      rating: e.target.value,
     });
   }
 
-
-  onSubmit(e){
+  onSubmit(e) {
     e.preventDefault();
-    const list =  {
-        reviews : this.state.reviews,
-        rating : this.state.rating
-    }
+    const list = {
+      reviews: this.state.reviews,
+      rating: this.state.rating,
+    };
 
-    axios.patch("http://localhost:5500/list/review/" + this.props.match.params.name, list).then((res) => {
-       console.log("saved successfully");
-        
-       window.location = '/'
-}) 
-    
-};
-   
+    axios
+      .post(
+        "http://localhost:5500/list/review/" + this.props.match.params.name,
+        list
+      )
+      .then((res) => {
+        console.log("saved successfully");
 
+        window.location = "/";
+      });
+  }
 
   render() {
-    
     return (
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
@@ -75,8 +69,7 @@ export default class Addreivew extends Component {
                 value={this.state.rating}
                 onChange={this.onChangeRating}
               />
-                
-                
+
               <div class="buttonContainer">
                 <input
                   type="submit"
@@ -84,10 +77,8 @@ export default class Addreivew extends Component {
                   className="btn btn-primary"
                 />
               </div>
-
             </div>
           </form>
-
         </div>
       </div>
     );
