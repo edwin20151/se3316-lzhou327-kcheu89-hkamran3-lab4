@@ -61,15 +61,7 @@ expandList(name) {
         but.style.width = '8vh'
         item.appendChild(but)
         l.appendChild(item);
-        var but = document.createElement("button");
-        but.innerHTML = "YouTube";
-        but.style.fontWeight = "bold";
-        but.style.backgroundColor = "red";
-        but.style.color = "white";
-        but.style.height = "4vh";
-        but.style.width = "8vh";
-        item.appendChild(but);
-        l.appendChild(item);
+        
         but.addEventListener("click", youtube);
 
         function youtube() {

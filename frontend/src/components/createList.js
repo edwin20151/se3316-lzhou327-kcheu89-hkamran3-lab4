@@ -13,7 +13,7 @@ export default class CreateList extends Component {
 
     this.state = {
       name: "",
-      playtime: 0,
+      playtime: "",
       tracksNum: "",
       tracks: "",
       isToggleOn: false,
@@ -66,12 +66,19 @@ export default class CreateList extends Component {
       Public: this.state.isToggleOn,
       description: this.state.description,
     };
-
-    axios.post("http://localhost:5500/list", list).then((res) => {
-      console.log("saved successfully");
-
-      window.location = "/postlogon";
-    });
+    document.getElementById("list").innerText = "";
+    if (list.name === "") {
+      document.getElementById("list").innerText = "Name is missing\n";
+    }
+    if (list.tracksNum == 0) {
+      document.getElementById("list").innerText += "Tracks are missing\n";
+    }
+    if (list.name !== "" && list.tracksNum !== 0) {
+      axios.post("http://localhost:5500/list", list).then((res) => {
+        console.log("saved successfully");
+        window.location = "/postlogon";
+      });
+    }
   }
 
   getUserNmae() {
