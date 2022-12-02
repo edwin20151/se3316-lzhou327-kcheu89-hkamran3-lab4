@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Exercise = (props) => (
@@ -11,6 +11,7 @@ const Exercise = (props) => (
     <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.rating}</td>
     <td>
+    <Link to={'/addreivew/'+props.exercise.name}> add review </Link> |
       <a
         href="#"
         onClick={() => {
@@ -23,7 +24,7 @@ const Exercise = (props) => (
   </tr>
 );
 
-export default class PreLogon extends Component {
+export default class ReviewPage extends Component {
   constructor(props) {
     super(props);
 
@@ -99,20 +100,7 @@ expandList(name) {
   render() {
     return (
       <div>
-        <h2>Lab4 Music Web</h2>
-        <div className="App">
-          <p>
-            Our Website is here to help users experience the best possible
-            musical experience in the most organized manner. We allow you to
-            access artists, albums, tracks and genres as well as being able to
-            create a custom list of tracks. Our goal is for the user to be able
-            to do whatever function they want when it pertains to music, whether
-            thats giving their opinions or saving their favourite songs. We are
-            here to stay and we hope you join us in the journey.
-          </p>
-          <br />
-        </div>
-        <h3>Public Playlist</h3>
+        <h1>Public Playlist</h1>
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -126,8 +114,6 @@ expandList(name) {
           </thead>
           <tbody>{this.exerciseList()}</tbody>
         </table>
-
-        <ol id="list"></ol>
       </div>
     );
   }
