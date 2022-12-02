@@ -9,7 +9,7 @@ const Exercise = (props) => (
     <td>{props.exercise.modifiedDate}</td>
     <td>{props.exercise.playtime}</td>
     <td>{props.exercise.tracksNum}</td>
-    <td>{props.exercise.rating}</td>
+    <td>{props.exercise.avgRating}</td>
     <td>
       <a
         href="#"
@@ -36,6 +36,14 @@ export default class PreLogon extends Component {
     axios
       .get("http://localhost:5500/list/public/")
       .then((response) => {
+        response.data.forEach((e) => {
+          if (e.rating.length > 0) {
+            e.avgRating =
+              Math.round(
+                (e.rating.reduce((a, b) => a + b, 0) / e.rating.length) * 100
+              ) / 100;
+          }
+        });
         this.setState({ lists: response.data });
       })
       .catch((error) => {
@@ -43,25 +51,26 @@ export default class PreLogon extends Component {
       });
   }
 
-
-expandList(name) {
-  axios.post("http://localhost:5500/list/public/" + name).then((res) => {
-    console.log(res.data);
-    const l = document.getElementById("list");
-    res.data.forEach((e) => {
-      const item = document.createElement("li");
-      item.appendChild(document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`));
-      l.appendChild(item);
-      var but = document.createElement('button');
-        but.innerHTML = 'YouTube';
-        but.style.fontWeight = 'bold';
-        but.style.backgroundColor = 'red'
-        but.style.color = 'white';
-        but.style.height = '4vh'
-        but.style.width = '8vh'
-        item.appendChild(but)
+  expandList(name) {
+    axios.post("http://localhost:5500/list/public/" + name).then((res) => {
+      console.log(res.data);
+      const l = document.getElementById("list");
+      res.data.forEach((e) => {
+        const item = document.createElement("li");
+        item.appendChild(
+          document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`)
+        );
         l.appendChild(item);
-        
+        var but = document.createElement("button");
+        but.innerHTML = "YouTube";
+        but.style.fontWeight = "bold";
+        but.style.backgroundColor = "red";
+        but.style.color = "white";
+        but.style.height = "4vh";
+        but.style.width = "8vh";
+        item.appendChild(but);
+        l.appendChild(item);
+
         but.addEventListener("click", youtube);
 
         function youtube() {
