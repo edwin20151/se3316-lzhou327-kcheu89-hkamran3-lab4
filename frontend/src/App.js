@@ -10,7 +10,7 @@ import ChangePassword from "./components/changePassword";
 import Welcome from "./components/welcome";
 import Search from "./components/search";
 import Admin from "./components/admin";
-import CreatList from "./components/creatList";
+import CreateList from "./components/createList";
 
 function App() {
   const [user, setUser] = useState();
@@ -118,7 +118,7 @@ function App() {
           <Route path="/password" component={ChangePassword} />
           <Route path="/admin" component={Admin} />
           <Route path="/postlogon" component={PostLogon} />
-          <Route path="/createList" component={CreatList} />
+          <Route path="/createList" component={CreateList} />
           <Route path="/confirm/:confirmationCode" component={Welcome} />
         </Switch>
       </div>
