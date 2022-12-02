@@ -7,12 +7,14 @@ export default class Addreivew extends Component {
     
     super(props);
     this.onChangeReview = this.onChangeReview.bind(this);
+    this.onChangeRating = this.onChangeRating.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
 
 
     this.state={
-        reviews : []
+        reviews : [],
+        rating : 0
     }
   }
 
@@ -23,12 +25,18 @@ export default class Addreivew extends Component {
         reviews: e.target.value
     });
   }
+  onChangeRating(e){
+    this.setState({
+        rating: e.target.value
+    });
+  }
 
 
   onSubmit(e){
     e.preventDefault();
     const list =  {
-        reviews : this.state.reviews
+        reviews : this.state.reviews,
+        rating : this.state.rating
     }
 
     axios.patch("http://localhost:5500/list/review/" + this.props.match.params.name, list).then((res) => {
@@ -58,6 +66,16 @@ export default class Addreivew extends Component {
                 value={this.state.reviews}
                 onChange={this.onChangeReview}
               />
+              <input
+                type="text"
+                name="rating"
+                id="rating-f"
+                class="rating-f-input"
+                placeholder="0-5"
+                value={this.state.rating}
+                onChange={this.onChangeRating}
+              />
+                
                 
               <div class="buttonContainer">
                 <input

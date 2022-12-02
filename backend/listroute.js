@@ -78,7 +78,8 @@ router.patch("/review/:list", async (req, res) => {
   
       const updatedList = await List.updateMany(
         { name: req.params.list },
-        { $set: { reviews: req.body.reviews } }
+        { $set: { reviews: req.body.reviews,
+        rating : req.body.rating } }
       );
 
       res.json(updatedList);
