@@ -130,8 +130,11 @@ expandList(name) {
           </thead>
           <tbody>{this.exerciseList()}</tbody>
         </table>
-
+        <div>
+        <button onClick={()=>{document.getElementById("list").innerText=""}}> clear</button>
+        </div>
         <ol id="list"></ol>
+        
       </div>
     );
   }
