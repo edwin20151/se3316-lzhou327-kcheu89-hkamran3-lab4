@@ -66,10 +66,16 @@ export default class CreateList extends Component {
       document.getElementById("list").innerText += "Tracks are missing\n";
     }
     if (list.name !== "" && list.tracksNum !== 0) {
-      axios.post("http://localhost:5500/list/", list).then((res) => {
-        console.log("saved successfully");
-        window.location = "/postlogon";
-      });
+      axios
+        .post("http://localhost:5500/list", list)
+        .then((res) => {
+          console.log("saved successfully");
+          window.location = "/postlogon";
+        })
+        .catch((e) => {
+          document.getElementById("list").innerText = "Name is duplicated";
+          console.log(e);
+        });
     }
   }
 

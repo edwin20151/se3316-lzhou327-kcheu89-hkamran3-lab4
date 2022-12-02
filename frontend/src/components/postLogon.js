@@ -9,7 +9,6 @@ const Exercise = (props) => (
     <td>{props.exercise.modifiedDate}</td>
     <td>{props.exercise.playtime}</td>
     <td>{props.exercise.tracksNum}</td>
-    <td>{props.exercise.userEmail}</td>
     <td>
       <Link to={"/edit/" + props.exercise.name}>edit</Link> |
       <a
@@ -139,7 +138,6 @@ export default class PreLogon extends Component {
               <th>modifiedDate</th>
               <th>playtime</th>
               <th>tracksNum</th>
-              <th> userEmail</th>
             </tr>
           </thead>
           <tbody>{this.exerciseList()}</tbody>
