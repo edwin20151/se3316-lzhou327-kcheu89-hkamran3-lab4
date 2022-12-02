@@ -59,10 +59,17 @@ export default class SignUp extends Component {
       {
         username: userObject.name,
         email: userObject.email,
-        password: "000000",
       },
       () => {
-        this.createAccount();
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            username: this.state.username,
+            email: this.state.email,
+            isAdmin: false,
+            isGoogleSign: true,
+          })
+        );
         this.props.history.push("/postlogon");
       }
     );

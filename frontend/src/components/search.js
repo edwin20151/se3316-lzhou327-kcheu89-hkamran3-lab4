@@ -30,25 +30,6 @@ export default class Search extends Component {
       console.log(res.data);
       const l = document.getElementById("list");
       l.innerText = "";
-      document.getElementById("expand").addEventListener("click", expand);
-      function expand() {
-        res.data.forEach((e) => {
-          const item = document.createElement("li");
-          item.appendChild(
-            document.createTextNode(` trackname: ${e.track_genres}`)
-          );
-          var but = document.createElement("button");
-          but.innerHTML = "YouTube";
-          but.style.fontWeight = "bold";
-          but.style.backgroundColor = "red";
-          but.style.color = "white";
-          but.style.height = "4vh";
-          but.style.width = "8vh";
-          item.appendChild(but);
-          l.appendChild(item);
-          but.addEventListener("click", this.youtube);
-        });
-      }
 
       res.data.forEach((e) => {
         const item = document.createElement("li");
@@ -57,27 +38,35 @@ export default class Search extends Component {
             ` trackname: ${e.track_title}, artistname:  ${e.artist_name}`
           )
         );
-        var but = document.createElement("button");
-        but.innerHTML = "YouTube";
-        but.style.fontWeight = "bold";
-        but.style.backgroundColor = "red";
-        but.style.color = "white";
-        but.style.height = "4vh";
-        but.style.width = "8vh";
-        item.appendChild(but);
+
+        let expandButton = document.createElement("button");
+        expandButton.innerText = "Expand";
+        expandButton.style.margin = "5px";
+        item.appendChild(expandButton);
+
+        expandButton.addEventListener("click", (event) => {
+          item.childNodes[0].textContent += `, track creation date: ${e.track_date_created}, track genres: ${e.track_genres} `;
+          item.removeChild(expandButton);
+        });
+
+        var youtubeButton = document.createElement("button");
+        youtubeButton.innerHTML = "YouTube";
+        youtubeButton.style.fontWeight = "bold";
+        youtubeButton.style.backgroundColor = "red";
+        youtubeButton.style.color = "white";
+        youtubeButton.style.height = "4vh";
+        youtubeButton.style.width = "8vh";
+        item.appendChild(youtubeButton);
         l.appendChild(item);
 
-        but.addEventListener("click", youtube);
-        function youtube() {
-          res.data.forEach((e) => {
-            var but = document.getElementById("but");
-            but.onclick = window.open(
-              "https://www.youtube.com/results?search_query=" +
-                e.artist_name +
-                e.track_title
-            );
-          });
-        }
+        youtubeButton.addEventListener("click", (event) => {
+          window.open(
+            "https://www.youtube.com/results?search_query=" +
+              e.track_title +
+              "+" +
+              e.artist_name
+          );
+        });
       });
     });
   }
@@ -150,15 +139,12 @@ export default class Search extends Component {
               value={this.state.track}
               onChange={this.onChangetrack}
             />
-            <div class="buttonContainer">
+            <div class="Container">
               <input type="submit" value="search" className="btn btn-primary" />
             </div>
           </form>
           <ol id="list"></ol>
           <br />
-          <div class="buttonContainer">
-            <button id="expand"> expand</button>
-          </div>
         </div>
       </div>
     );

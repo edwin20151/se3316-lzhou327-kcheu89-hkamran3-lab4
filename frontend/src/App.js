@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Aboutus from "./components/about";
 import PreLogon from "./components/preLogon";
 import PostLogon from "./components/postLogon";
 import SignUp from "./components/signUp";
@@ -55,18 +54,13 @@ function App() {
           <li className="nav-item">
             {user ? (
               <Link
-                to={"/creat"}
+                to={"/createList"}
                 className="nav-link"
                 style={{ cursor: "pointer" }}
               >
                 Create
               </Link>
             ) : null}
-          </li>
-          <li className="nav-item">
-            <Link to={"/Homepage/aboutus"} className="nav-link">
-              About Us
-            </Link>
           </li>
           <li className="nav-item">
             <Link to={"/search"} className="nav-link">
@@ -97,7 +91,7 @@ function App() {
             )}
           </li>
           <li className="nav-item">
-            {user ? (
+            {user && !user.isGoogleSign ? (
               <Link to={"/password"} className="nav-link">
                 Change Password
               </Link>
@@ -116,10 +110,6 @@ function App() {
       <div className="container mt-3">
         <Switch>
           <Route exact path={["/", "/Homepage"]} component={PreLogon} />
-          <Route
-            path="/Homepage/aboutus"
-            render={(props) => <Aboutus {...props} user={user} />}
-          />
           <Route
             path="/Homepage/:id"
             render={(props) => <PostLogon {...props} user={user} />}
