@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const List = require("./model/list");
-const Track = require("./model/track");
+const Track = require("./model/track")
 
 // Get all Public lists
 router.get("/public/", async (req, res) => {
-  const lists = await List.find({ Public: true })
-    .sort({ modifiedDate: -1 })
-    .limit(10);
+  const lists = await List.find({ Public: true }).sort({"modifiedDate":-1}).limit(10);
   res.json(lists);
 });
 
@@ -34,9 +32,7 @@ router.get("/:list", async (req, res) => {
 
 // Get private lists for a user
 router.get("/private/:email", async (req, res) => {
-  const lists = await List.find({ Public: false, userEmail: req.params.email })
-    .limit(20)
-    .sort({ modifiedDate: -1 });
+  const lists = await List.find({ Public: false, userEmail: req.params.email }).limit(20).sort({"modifiedDate" : -1});
   res.json(lists);
 });
 
@@ -80,26 +76,25 @@ router.post("/edit/:track", async (req, res) => {
 
 router.delete("/:list", async (req, res) => {
   try {
-    const removeList = await List.remove({ name: req.params.list });
-    res.json(removeList);
-  } catch (err) {
+      const removeList = await List.remove({ name: req.params.list});
+      res.json(removeList);
+    } 
+  catch (err) {
     res.json({ message: err });
   }
 });
 
 router.patch("/review/:list", async (req, res) => {
   try {
-    const targetList = await List.find({ name: req.params.list });
-    let reviews = targetList.reviews;
-    let ratings = targetList.ratings;
-    reviews.push(req.body.reviews);
-    ratings.push(req.body.rating);
-    const updatedList = await List.updateMany(
-      { name: req.params.list },
-      { $set: { reviews: reviews, ratings: ratings } }
-    );
+  
+      const updatedList = await List.updateMany(
+        { name: req.params.list },
+        { $set: { reviews: req.body.reviews,
+        rating : req.body.rating } }
+      );
 
-    res.json(updatedList);
+      res.json(updatedList);
+    
   } catch (err) {
     res.status(404).json({ message: err });
   }
