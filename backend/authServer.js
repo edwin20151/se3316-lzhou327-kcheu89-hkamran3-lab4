@@ -28,5 +28,7 @@ app.use("/track", trackRoute);
 const listRoute = require("./listroute.js");
 app.use("/list", listRoute);
 
+const legalRoute = require("./legalroute.js");
+app.use("/report", legalRoute);
 
 app.listen(5500);
