@@ -36,29 +36,40 @@ router.get("/private/:email", async (req, res) => {
   res.json(lists);
 });
 
-router.patch("/:track", async (req, res) => {
+router.post("/edit/:track", async (req, res) => {
   try {
-    const list = await List.find({ name: req.params.track }).count({
-      sent_at: null});
-    
-    if (list > 0 ) {
+    const track1 =  await Track.find({ track_title : req.body.tracks })
+    const track = await Track.find({ track_title : req.body.tracks }).count({
+      sent_at: null})
+
+      const list = await List.find({ name: req.params.track }).count({
+        sent_at: null});
+    if (list > 0 && track>0 ) {
+      let tracks_duration = 0;
+     for(let i = 0 ; i < track1.length; i++){
+      const durArr = track1[i].track_duration.split(":")
+      tracks_duration += parseInt(durArr[0]) * 60 + parseInt(durArr[1])
+     }
+     
+     const m = Math.floor(tracks_duration / 60)
+     const s = tracks_duration - m * 60
+     const time = m.toString() + ":" + s.toString();
+  
       const updatedList = await List.updateMany(
         { name: req.params.track },
         { $set: { name: req.body.name,
-        
-          playtime: req.body.playtime,
 
           tracks: req.body.tracks,
-          
+          playtime: time,
           Public: req.body.Public,
           description : req.body.description} }
       );
-
       res.json(updatedList);
-    } else {
-      res.status(404).send("not existed");
-    }
-  } catch (err) {
+        }else {
+            res.status(404).send("not existed");
+          }
+         } 
+   catch (err) {
     res.status(404).json({ message: err });
   }
 });
@@ -90,24 +101,38 @@ router.patch("/review/:list", async (req, res) => {
 });
 
 router.post('/', async (req,res)=>{
-  const list = new  List({
-      name: req.body.name,
-      creator: req.body.creator,
-      playtime: req.body.playtime,
-      tracksNum: req.body.tracksNum,
-      tracks: req.body.tracks,
-      userEmail: req.body.userEmail,
-      Public: req.body.Public,
-      description : req.body.description
-  })
+
 
   const list1 = await List.find({name : req.body.name}).count({sent_at: null});
 
   const track = await Track.find({ track_title : req.body.tracks }).count({
     sent_at: null})
-   try{
+
+    const track1 = await Track.find({ track_title : req.body.tracks })
+    
+    let tracks_duration = 0;
+    for(let i = 0 ; i < track1.length; i++){
+     const durArr = track1[i].track_duration.split(":")
+     tracks_duration += parseInt(durArr[0]) * 60 + parseInt(durArr[1])
+    }
+    
+    const m = Math.floor(tracks_duration / 60)
+    const s = tracks_duration - m * 60
+    const time = m.toString() + ":" + s.toString();
+
+      const list = new  List({
+        name: req.body.name,
+        creator: req.body.creator,
+        playtime: time,
+        tracksNum: req.body.tracksNum,
+        tracks:  req.body.tracks,
+        userEmail: req.body.userEmail,
+        Public: req.body.Public,
+        description : req.body.description
+    })
+    try{
       if(list1 == 0 && track > 0){
-          const savedList = await list.save();
+          const savedList =  list.save();
           res.json(savedList);
         
  }
@@ -120,5 +145,8 @@ router.post('/', async (req,res)=>{
       res.json({message : err})
   }
 })
+      
+  
+   
 
 module.exports = router;

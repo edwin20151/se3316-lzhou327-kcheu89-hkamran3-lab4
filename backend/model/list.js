@@ -15,8 +15,7 @@ const ListSchema = new Schema({
     required: true,
   },
   playtime: {
-    type: String,
-    required: true,
+    type: String
   },
   tracksNum: {
     type: Number,

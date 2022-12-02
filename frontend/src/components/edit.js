@@ -1,27 +1,22 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 
-
-export default class EditList extends Component {
-  constructor(props){
-    
+export default class CreateList extends Component {
+  constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangetracks = this.onChangetracks.bind(this);
-    this.onChangeplaytime = this.onChangeplaytime.bind(this);
     this.onChangedescription = this.onChangedescription.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this)
+    this.handleClick = this.handleClick.bind(this);
 
-
-
-    this.state={
-    name :  '',
-    playtime  : 0,
-    tracks : [],
-    isToggleOn: false,
-    description : ''
-    }
+    this.state = {
+      name: "",
+      tracksNum: "",
+      tracks: "",
+      isToggleOn: false,
+      description: "",
+    };
   }
 
   componentDidMount() {
@@ -41,6 +36,68 @@ export default class EditList extends Component {
       });
   }
 
+  handleClick() {
+    this.setState((state) => ({
+      isToggleOn: !state.isToggleOn,
+    }));
+  }
+
+  onChangedescription(e) {
+    this.setState({
+      description: e.target.value,
+    });
+  }
+
+  onChangeName(e) {
+    this.setState({
+      name: e.target.value,
+    });
+  }
+
+  onChangetracks(e) {
+    const track = e.target.value.split(",");
+    this.setState({
+      tracks: track,
+      tracksNum: track.length,
+    });
+  }
+
+
+  onSubmit(e) {
+    e.preventDefault();
+    console.log(this.state);
+    const list = {
+      name: this.state.name,
+      tracksNum: this.state.tracks.length,
+      tracks: this.state.tracks,
+      Public: this.state.isToggleOn,
+      description: this.state.description,
+    };
+    document.getElementById("list").innerText = "";
+    if (list.name === "") {
+      document.getElementById("list").innerText = "Name is missing\n";
+    }
+    if (list.tracksNum == 0) {
+      document.getElementById("list").innerText += "Tracks are missing\n";
+    }
+    if (list.name !== "" && list.tracksNum !== 0) {
+      axios.post("http://localhost:5500/list/edit/"+ this.props.match.params.name, list).then((res) => {
+        console.log("saved successfully");
+        window.location = "/postlogon";
+      });
+    }
+  }
+
+  getUserNmae() {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser);
+      return user.username;
+    } else {
+      console.log("Get username Error");
+    }
+  }
+
   getUserEmail() {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
@@ -51,66 +108,11 @@ export default class EditList extends Component {
     }
   }
 
-  handleClick(){
-    this.setState(state => ({
-        isToggleOn: !state.isToggleOn
-    }))
-  }
-
-  onChangedescription(e){
-    this.setState({
-      description : e.target.value
-    })
-  }
-
-  onChangeName(e){
-    this.setState({
-        name: e.target.value
-    });
-  }
-
-  onChangetracks(e){
-    const track = e.target.value.split(',')
-    this.setState({
-     tracks: [track]
-    });
-  }
-
-
-  onChangeplaytime(e){
-    this.setState({
-        playtime: e.target.value
-    });
-  }
-
-
-  onSubmit(e){
-    e.preventDefault();
-    const list =  {
-        name :  this.state.name,
-        playtime  : this.state.playtime,
-        tracksNum : this.state.tracks.length,
-        tracks : this.state.tracks,
-        Public : this.state.isToggleOn,
-        description : this.state.description
-    }
-
-    axios.patch("http://localhost:5500/list/" + this.props.match.params.name, list).then((res) => {
-       console.log("saved successfully");
-        
-       window.location = '/postlogon'
-}) 
-    
-};
-   
-
-
   render() {
-    
     return (
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
-          <h1 id="login">Edit List</h1>
+          <h1 id="login">Edit List </h1>
           <form onSubmit={this.onSubmit}>
             <div id="loginpage" class="login">
               <input
@@ -131,18 +133,8 @@ export default class EditList extends Component {
                 value={this.state.tracks}
                 onChange={this.onChangetracks}
               />
-              <input
-                type="text"
-                name="playtime"
-                id="playtime-f"
-                class="playtime-f-input"
-                placeholder="playtime"
-                value={this.state.playtime}
-                onChange={this.onChangeplaytime}
-              />
 
-            
-                <input
+              <input
                 type="text"
                 name="description"
                 id="description-f"
@@ -150,8 +142,8 @@ export default class EditList extends Component {
                 placeholder="description"
                 value={this.state.description}
                 onChange={this.onChangedescription}
-              /> 
-                
+              />
+
               <div class="buttonContainer">
                 <input
                   type="submit"
@@ -159,13 +151,12 @@ export default class EditList extends Component {
                   className="btn btn-primary"
                 />
               </div>
-
             </div>
           </form>
           <a> IsPublic?</a>
           <button onClick={this.handleClick}>
-                    {this.state.isToggleOn ? "true" : "false"}
-                </button>
+            {this.state.isToggleOn ? "true" : "false"}
+          </button>
           <ol id="list"></ol>
         </div>
       </div>
