@@ -15,11 +15,11 @@ const ReviewSchema = new Schema({
     required: true,
   },
   message: {
-    type: Array,
+    type: String,
     required: true,
   },
   rating: {
-    type: Array,
+    type: Number,
     required: true,
   },
   userEmail: {
