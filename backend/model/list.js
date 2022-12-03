@@ -38,12 +38,6 @@ const ListSchema = new Schema({
   description: {
     type: String,
   },
-  reviews: {
-    type: Array,
-  },
-  description: {
-    type: String,
-  },
 });
 
 module.exports = mongoose.model("list", ListSchema);
