@@ -71,9 +71,13 @@ export default class PreLogon extends Component {
 
   deleteList(name) {
     if (window.confirm("Confirm to delete this playlist?")) {
-      axios.delete("http://localhost:5500/list/" + name).then((res) => {
-        window.location.reload();
-      });
+      axios
+        .delete("http://localhost:5500/list/" + name, {
+          data: { email: this.getUserEmail() },
+        })
+        .then((res) => {
+          window.location.reload();
+        });
     }
   }
 

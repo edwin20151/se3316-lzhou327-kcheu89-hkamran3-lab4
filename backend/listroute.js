@@ -53,7 +53,18 @@ router.post("/edit/:track", async (req, res) => {
     const list1 = await List.find({ name: req.body.name }).count({
       sent_at: null,
     });
-    if (list == 1 && list1 == 0 && track > 0) {
+    const list2 = await List.find({
+      name: req.params.track,
+      userEmail: req.body.email,
+    }).count({
+      sent_at: null,
+    });
+
+    if (req.params.track != req.body.name && list1 > 0) {
+      res.status(404).send("name existed");
+    }
+
+    if (list == 1 && list2 > 0 && track > 0) {
       let tracks_duration = 0;
       for (let i = 0; i < track1.length; i++) {
         const durArr = track1[i].track_duration.split(":");
@@ -74,8 +85,8 @@ router.post("/edit/:track", async (req, res) => {
             playtime: time,
             Public: req.body.Public,
             description: req.body.description,
-            modifiedDate : new Date()
-          }
+            modifiedDate: new Date(),
+          },
         }
       );
       res.json(updatedList);
@@ -89,7 +100,16 @@ router.post("/edit/:track", async (req, res) => {
 
 router.delete("/:list", async (req, res) => {
   try {
-    const removeList = await List.remove({ name: req.params.list });
+    const targetList = await List.find({
+      name: req.params.list,
+      userEmail: req.body.email,
+    }).count({
+      sent_at: null,
+    });
+    if (targetList == 0) {
+      res.status(404).json({ message: "not found" });
+    }
+    const removeList = await List.deleteOne({ name: req.params.list });
     res.json(removeList);
   } catch (err) {
     res.json({ message: err });
