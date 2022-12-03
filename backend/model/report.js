@@ -11,9 +11,6 @@ const legalSchema = new Schema({
         type:String,
          required:true
     },
-    userEmail: {
-        type: String,
-      },
     request_date:{
         type:Date,
         required:true
