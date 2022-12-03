@@ -3,6 +3,7 @@ import axios from "axios";
 
 const Admin = () => {
   const [users, setUsers] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +16,36 @@ const Admin = () => {
     };
     fetchData().catch(console.error);
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get("http://localhost:5500/review/");
+      if (!res.error) {
+        console.log(res.data);
+        setReviews(res.data);
+      } else {
+        console.log(res);
+      }
+    };
+    fetchData().catch(console.error);
+  });
+
+  const changeReviewStatus = async (review, isHidden) => {
+    try {
+      const res = await axios.patch("http://localhost:5500/review/status", {
+        listName: review.listName,
+        userEmail: review.userEmail,
+        isHidden: isHidden,
+      });
+      if (!res.error) {
+        window.location.reload();
+      } else {
+        console.log(res.error);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const changeUserStatus = async (user, isActivated) => {
     try {
@@ -108,6 +139,44 @@ const Admin = () => {
             </table>
           </div>
         )}
+        <div>
+          <table className="table table-hover">
+            <thead>
+              <tr className="table-dark">
+                <th scope="col">List Name</th>
+                <th scope="col">User Email</th>
+                <th scope="col">Message</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Hidden?</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reviews.map((review) => (
+                <tr>
+                  <th scope="row">{review.listName}</th>
+                  <td>{review.userEmail}</td>
+                  <td>{review.message}</td>
+                  <td>{review.rating}</td>
+                  {review.isHidden ? (
+                    <td>
+                      Hidden
+                      <button onClick={() => changeReviewStatus(review, false)}>
+                        Show it
+                      </button>
+                    </td>
+                  ) : (
+                    <td>
+                      Showing
+                      <button onClick={() => changeReviewStatus(review, true)}>
+                        Hide it
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
