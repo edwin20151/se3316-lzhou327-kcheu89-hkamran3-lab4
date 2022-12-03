@@ -8,7 +8,7 @@ const Exercise = (props) => (
     <td>{props.exercise.creator}</td>
     <td>{props.exercise.modifiedDate}</td>
     <td>{props.exercise.playtime}</td>
-    <td>{props.exercise.tracksNum}</td>
+    <td>{props.exercise.tracks.length}</td>
     <td>
       <Link to={"/edit/" + props.exercise.name}>edit</Link> |
       <a
