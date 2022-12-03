@@ -4,7 +4,7 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const cors = require('cors')
+const cors = require("cors");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -30,5 +30,8 @@ app.use("/list", listRoute);
 
 const legalRoute = require("./legalroute.js");
 app.use("/report", legalRoute);
+
+const reviewRoute = require("./reviewroute.js");
+app.use("/reviews", reviewRoute);
 
 app.listen(5500);

@@ -34,7 +34,7 @@ export default class Addreivew extends Component {
 
     axios
       .post(
-        "http://localhost:5500/list/review/" + this.props.match.params.name,
+        "http://localhost:5500/reviews/" + this.props.match.params.name,
         list
       )
       .then((res) => {

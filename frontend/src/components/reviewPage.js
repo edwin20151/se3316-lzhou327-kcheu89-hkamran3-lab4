@@ -11,7 +11,7 @@ const Exercise = (props) => (
     <td>{props.exercise.tracksNum}</td>
     <td>{props.exercise.rating}</td>
     <td>
-    <Link to={'/addreivew/'+props.exercise.name}> add review </Link> |
+      <Link to={"/addreivew/" + props.exercise.name}> add review </Link> |
       <a
         href="#"
         onClick={() => {
@@ -44,43 +44,16 @@ export default class ReviewPage extends Component {
       });
   }
 
-
-expandList(name) {
-  axios.post("http://localhost:5500/list/public/" + name).then((res) => {
-    console.log(res.data);
-    const l = document.getElementById("list");
-    res.data.forEach((e) => {
-      const item = document.createElement("li");
-      item.appendChild(document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`));
-      l.appendChild(item);
-      var but = document.createElement('button');
-        but.innerHTML = 'YouTube';
-        but.style.fontWeight = 'bold';
-        but.style.backgroundColor = 'red'
-        but.style.color = 'white';
-        but.style.height = '4vh'
-        but.style.width = '8vh'
-        item.appendChild(but)
+  expandList(name) {
+    axios.post("http://localhost:5500/list/public/" + name).then((res) => {
+      console.log(res.data);
+      const l = document.getElementById("list");
+      res.data.forEach((e) => {
+        const item = document.createElement("li");
+        item.appendChild(
+          document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`)
+        );
         l.appendChild(item);
-        var but = document.createElement("button");
-        but.innerHTML = "YouTube";
-        but.style.fontWeight = "bold";
-        but.style.backgroundColor = "red";
-        but.style.color = "white";
-        but.style.height = "4vh";
-        but.style.width = "8vh";
-        item.appendChild(but);
-        l.appendChild(item);
-        but.addEventListener("click", youtube);
-
-        function youtube() {
-          res.data.forEach((e) => {
-            var but = document.getElementById("but");
-            but.onclick = window.open(
-              "https://www.youtube.com/results?search_query=" + e.tracks
-            );
-          });
-        }
       });
     });
   }

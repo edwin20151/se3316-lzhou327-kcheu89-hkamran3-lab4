@@ -116,19 +116,6 @@ router.delete("/:list", async (req, res) => {
   }
 });
 
-router.post("/review/:list", async (req, res) => {
-  try {
-    const updatedList = await List.updateMany(
-      { name: req.params.list },
-      { $push: { reviews: req.body.reviews, rating: req.body.rating } }
-    );
-
-    res.json(updatedList);
-  } catch (err) {
-    res.status(404).json({ message: err });
-  }
-});
-
 router.post("/", async (req, res) => {
   const list1 = await List.find({ name: req.body.name }).count({
     sent_at: null,
