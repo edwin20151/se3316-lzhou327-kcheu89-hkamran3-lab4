@@ -26,7 +26,7 @@ const Exercise = (props) => (
 export default class PreLogon extends Component {
   constructor(props) {
     super(props);
-
+    // this.getAvgRating = this.getAvgRating.bind(this);
     this.expandList = this.expandList.bind(this);
 
     this.state = { lists: [] };
@@ -37,12 +37,7 @@ export default class PreLogon extends Component {
       .get("http://localhost:5500/list/public/")
       .then((response) => {
         response.data.forEach((e) => {
-          if (e.rating.length > 0) {
-            e.avgRating =
-              Math.round(
-                (e.rating.reduce((a, b) => a + b, 0) / e.rating.length) * 100
-              ) / 100;
-          }
+          this.getAvgRating(e.name);
         });
         this.setState({ lists: response.data });
       })
@@ -51,41 +46,56 @@ export default class PreLogon extends Component {
       });
   }
 
-
-expandList(name) {
-  axios.post("http://localhost:5500/list/public/" + name).then((res) => {
-    console.log(res.data);
-    const l = document.getElementById("list");
-    res.data.forEach((e) => {
-      const item = document.createElement("li");
-      item.appendChild(document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`));
-      l.appendChild(item);
-      for(let i=0 ; i<e.tracksNum ; i++){
-      var but = document.createElement('button');
-        but.innerHTML = 'YouTube';
-        but.style.fontWeight = 'bold';
-        but.style.backgroundColor = 'red'
-        but.style.color = 'white';
-        but.style.height = '4vh'
-        but.style.width = '8vh'
-        item.appendChild(but)
-        l.appendChild(item);
-        
-        but.addEventListener("click", ()=>{
-          
-            res.data.forEach((e) => {
-                window.open(
-                  "https://www.youtube.com/results?search_query=" +
-                    e.tracks[i]
-                );
-              }
-    )}
-        )};
-
-        
-        })
+  getAvgRating(name) {
+    axios
+      .get("http://localhost:5500/reviews/" + name)
+      .then((response) => {
+        let ratings = [];
+        response.data.forEach((e) => {
+          ratings.push(e.rating);
+        });
+        return (
+          Math.round(
+            (ratings.reduce((a, b) => a + b, 0) / ratings.length) * 100
+          ) / 100
+        );
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    
+  }
+
+  expandList(name) {
+    axios.post("http://localhost:5500/list/public/" + name).then((res) => {
+      console.log(res.data);
+      const l = document.getElementById("list");
+      res.data.forEach((e) => {
+        const item = document.createElement("li");
+        item.appendChild(
+          document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`)
+        );
+        l.appendChild(item);
+        for (let i = 0; i < e.tracksNum; i++) {
+          var but = document.createElement("button");
+          but.innerHTML = "YouTube";
+          but.style.fontWeight = "bold";
+          but.style.backgroundColor = "red";
+          but.style.color = "white";
+          but.style.height = "4vh";
+          but.style.width = "8vh";
+          item.appendChild(but);
+          l.appendChild(item);
+
+          but.addEventListener("click", () => {
+            res.data.forEach((e) => {
+              window.open(
+                "https://www.youtube.com/results?search_query=" + e.tracks[i]
+              );
+            });
+          });
+        }
+      });
+    });
   }
 
   exerciseList() {
@@ -131,10 +141,16 @@ expandList(name) {
           <tbody>{this.exerciseList()}</tbody>
         </table>
         <div>
-        <button onClick={()=>{document.getElementById("list").innerText=""}}> clear</button>
+          <button
+            onClick={() => {
+              document.getElementById("list").innerText = "";
+            }}
+          >
+            {" "}
+            clear
+          </button>
         </div>
         <ol id="list"></ol>
-        
       </div>
     );
   }
