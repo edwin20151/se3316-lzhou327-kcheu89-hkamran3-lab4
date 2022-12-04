@@ -49,14 +49,22 @@ export default class ReviewPage extends Component {
       .then((res) => {
         const l = document.getElementById("list");
         l.innerText = "";
-        if (res.data.length === 0) {
+        const reviews = res.data.filter((e) => {
+          return e.isHidden === false;
+        });
+        console.log(reviews);
+        if (reviews.length === 0) {
           l.appendChild(document.createTextNode(`No review for ${name} yet`));
         } else {
           l.appendChild(document.createTextNode(`Reviews of ${name}:\n`));
 
-          res.data.forEach((e) => {
+          reviews.forEach((e) => {
             const item = document.createElement("li");
-            item.appendChild(document.createTextNode(`${e.message}\n`));
+            item.appendChild(
+              document.createTextNode(
+                `${e.userName} (${e.creationDate}): ${e.message}\n`
+              )
+            );
             l.appendChild(item);
           });
         }
