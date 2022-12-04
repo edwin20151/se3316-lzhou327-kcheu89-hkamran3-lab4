@@ -18,7 +18,7 @@ const Exercise = (props) => (
           props.exerciseList(props.exercise.name);
         }}
       >
-        expand
+        View review
       </a>
     </td>
   </tr>
@@ -27,8 +27,7 @@ const Exercise = (props) => (
 export default class ReviewPage extends Component {
   constructor(props) {
     super(props);
-
-    this.expandList = this.expandList.bind(this);
+    this.viewReview = this.viewReview.bind(this);
 
     this.state = { lists: [] };
   }
@@ -44,18 +43,27 @@ export default class ReviewPage extends Component {
       });
   }
 
-  expandList(name) {
-    axios.post("http://localhost:5500/list/public/" + name).then((res) => {
-      console.log(res.data);
-      const l = document.getElementById("list");
-      res.data.forEach((e) => {
-        const item = document.createElement("li");
-        item.appendChild(
-          document.createTextNode(` name: ${e.tracks} , review: ${e.reviews}`)
-        );
-        l.appendChild(item);
+  viewReview(name) {
+    axios
+      .get("http://localhost:5500/reviews/" + name)
+      .then((res) => {
+        const l = document.getElementById("list");
+        l.innerText = "";
+        if (res.data.length === 0) {
+          l.appendChild(document.createTextNode(`No review for ${name} yet`));
+        } else {
+          l.appendChild(document.createTextNode(`Reviews of ${name}:\n`));
+
+          res.data.forEach((e) => {
+            const item = document.createElement("li");
+            item.appendChild(document.createTextNode(`${e.message}\n`));
+            l.appendChild(item);
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    });
   }
 
   exerciseList() {
@@ -63,7 +71,7 @@ export default class ReviewPage extends Component {
       return (
         <Exercise
           exercise={currentlist}
-          exerciseList={this.expandList}
+          exerciseList={this.viewReview}
           key={currentlist.name}
         />
       );
@@ -87,6 +95,7 @@ export default class ReviewPage extends Component {
           </thead>
           <tbody>{this.exerciseList()}</tbody>
         </table>
+        <ol id="list"></ol>
       </div>
     );
   }
