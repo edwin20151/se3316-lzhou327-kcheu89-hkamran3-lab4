@@ -19,7 +19,7 @@ const Admin = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:5500/review/");
+      const res = await axios.get("http://localhost:5500/reviews/");
       if (!res.error) {
         console.log(res.data);
         setReviews(res.data);
@@ -32,7 +32,7 @@ const Admin = () => {
 
   const changeReviewStatus = async (review, isHidden) => {
     try {
-      const res = await axios.patch("http://localhost:5500/review/status", {
+      const res = await axios.patch("http://localhost:5500/reviews/status/", {
         listName: review.listName,
         userEmail: review.userEmail,
         isHidden: isHidden,
@@ -82,10 +82,10 @@ const Admin = () => {
   return (
     <>
       <div>
-        <h1> Users </h1>
         <a href="/admin" className="btn btn-danger my-2">
-          Reload Users
+          Reload Data
         </a>
+        <h1> Users </h1>
         {users.length === 0 ? (
           <h3>No user created yet</h3>
         ) : (
@@ -116,7 +116,7 @@ const Admin = () => {
                       </td>
                     ) : (
                       <td>
-                        Inactive
+                        Inactive{" "}
                         <button onClick={() => changeUserStatus(user, true)}>
                           Activate
                         </button>
@@ -126,8 +126,7 @@ const Admin = () => {
                       <td> Y </td>
                     ) : (
                       <td>
-                        {" "}
-                        N
+                        N {"  "}
                         <button onClick={() => grantAdmin(user)}>
                           Grant Admin
                         </button>
@@ -140,6 +139,10 @@ const Admin = () => {
           </div>
         )}
         <div>
+          <h1> Reviews </h1>
+          <p>
+            Your Total Reviews: <strong>{reviews.length}</strong>
+          </p>
           <table className="table table-hover">
             <thead>
               <tr className="table-dark">
@@ -159,14 +162,14 @@ const Admin = () => {
                   <td>{review.rating}</td>
                   {review.isHidden ? (
                     <td>
-                      Hidden
+                      Hidden{"  "}
                       <button onClick={() => changeReviewStatus(review, false)}>
                         Show it
                       </button>
                     </td>
                   ) : (
                     <td>
-                      Showing
+                      Showing{"  "}
                       <button onClick={() => changeReviewStatus(review, true)}>
                         Hide it
                       </button>
