@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import axios from "axios";
 
@@ -8,27 +7,20 @@ export default class AdminLegal extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeRequest = this.onChangeRequest.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
-    this.onChangeReview = this.onChangeReview.bind(this);
+    this.onChangedescription = this.onChangedescription.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       name: "",
       typeofrequest: "",
       Date: "",
-      isToggleOn: false,
-      Review: "",
+      description: "",
     };
   }
-  handleClick() {
-    this.setState((state) => ({
-      isToggleOn: !state.isToggleOn,
-    }));
-  }
 
-  onChangeReview(e) {
+  onChangedescription(e) {
     this.setState({
-      Review: e.target.value,
+      description: e.target.value,
     });
   }
   onChangeRequest(e) {
@@ -45,25 +37,24 @@ export default class AdminLegal extends Component {
 
   onChangeDate(e) {
     this.setState({
-      Date: e.target.value
+      Date: e.target.value,
     });
   }
 
-  
   onSubmit(e) {
     e.preventDefault();
     console.log(this.state);
     const report = {
       name: this.state.name,
-      typerequest: this.state.request,
+      typeofrequest: this.state.typeofrequest,
       Date: this.state.Date,
-      Review: this.state.Review,
+      description: this.state.description,
     };
 
     axios.post("http://localhost:5500/report", report).then((res) => {
       console.log("saved successfully");
 
-      window.location = "/postlogon";
+      // window.location = "/postlogon";
     });
   }
 
@@ -89,11 +80,11 @@ export default class AdminLegal extends Component {
                 id="request-f"
                 class="request-f-input"
                 placeholder="Type of Request"
-                value={this.state.request}
+                value={this.state.typeofrequest}
                 onChange={this.onChangeRequest}
               />
               <input
-                type="text"
+                type="date"
                 name="Date"
                 id="Date-f"
                 class="Date-f-input"
@@ -115,13 +106,13 @@ export default class AdminLegal extends Component {
               <div class="buttonContainer">
                 <input
                   type="submit"
-                  value="create"
+                  value="Create"
                   className="btn btn-primary"
                 />
               </div>
             </div>
           </form>
-          
+
           <ol id="list"></ol>
         </div>
       </div>
