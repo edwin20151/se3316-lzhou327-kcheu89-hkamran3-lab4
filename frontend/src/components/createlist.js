@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import axios from "axios";
 
@@ -7,14 +6,12 @@ export default class CreateList extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangetracks = this.onChangetracks.bind(this);
-    this.onChangeplaytime = this.onChangeplaytime.bind(this);
     this.onChangedescription = this.onChangedescription.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       name: "",
-      playtime: 0,
       tracksNum: "",
       tracks: "",
       isToggleOn: false,
@@ -48,11 +45,6 @@ export default class CreateList extends Component {
     });
   }
 
-  onChangeplaytime(e) {
-    this.setState({
-      playtime: e.target.value,
-    });
-  }
 
   onSubmit(e) {
     e.preventDefault();
@@ -61,18 +53,30 @@ export default class CreateList extends Component {
       creator: this.getUserNmae(),
       userEmail: this.getUserEmail(),
       name: this.state.name,
-      playtime: this.state.playtime,
       tracksNum: this.state.tracks.length,
       tracks: this.state.tracks,
       Public: this.state.isToggleOn,
       description: this.state.description,
     };
-
-    axios.post("http://localhost:5500/list", list).then((res) => {
-      console.log("saved successfully");
-
-      window.location = "/postlogon";
-    });
+    document.getElementById("list").innerText = "";
+    if (list.name === "") {
+      document.getElementById("list").innerText = "Name is missing\n";
+    }
+    if (list.tracksNum == 0) {
+      document.getElementById("list").innerText += "Tracks are missing\n";
+    }
+    if (list.name !== "" && list.tracksNum !== 0) {
+      axios
+        .post("http://localhost:5500/list", list)
+        .then((res) => {
+          console.log("saved successfully");
+          window.location = "/postlogon";
+        })
+        .catch((e) => {
+          document.getElementById("list").innerText = "Name is duplicated";
+          console.log(e);
+        });
+    }
   }
 
   getUserNmae() {
@@ -119,15 +123,6 @@ export default class CreateList extends Component {
                 placeholder="tracks"
                 value={this.state.tracks}
                 onChange={this.onChangetracks}
-              />
-              <input
-                type="text"
-                name="playtime"
-                id="playtime-f"
-                class="playtime-f-input"
-                placeholder="playtime"
-                value={this.state.playtime}
-                onChange={this.onChangeplaytime}
               />
 
               <input
