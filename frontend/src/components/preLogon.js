@@ -9,7 +9,6 @@ const Exercise = (props) => (
     <td>{props.exercise.modifiedDate}</td>
     <td>{props.exercise.playtime}</td>
     <td>{props.exercise.tracksNum}</td>
-    <td>{props.exercise.avgRating}</td>
     <td>
       <a
         href="#"
@@ -19,6 +18,7 @@ const Exercise = (props) => (
       >
         expand
       </a>
+      
     </td>
   </tr>
 );
@@ -26,44 +26,28 @@ const Exercise = (props) => (
 export default class PreLogon extends Component {
   constructor(props) {
     super(props);
-    // this.getAvgRating = this.getAvgRating.bind(this);
+    
     this.expandList = this.expandList.bind(this);
 
     this.state = { lists: [] };
+    
   }
 
   componentDidMount() {
     axios
       .get("http://localhost:5500/list/public/")
       .then((response) => {
-        response.data.forEach((e) => {
-          this.getAvgRating(e.name);
-        });
+       
         this.setState({ lists: response.data });
       })
       .catch((error) => {
         console.log(error);
       });
   }
+  
+  
+  
 
-  getAvgRating(name) {
-    axios
-      .get("http://localhost:5500/reviews/" + name)
-      .then((response) => {
-        let ratings = [];
-        response.data.forEach((e) => {
-          ratings.push(e.rating);
-        });
-        return (
-          Math.round(
-            (ratings.reduce((a, b) => a + b, 0) / ratings.length) * 100
-          ) / 100
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
   expandList(name) {
     axios.post("http://localhost:5500/list/public/" + name).then((res) => {
@@ -135,7 +119,7 @@ export default class PreLogon extends Component {
               <th>modifiedDate</th>
               <th>playtime</th>
               <th>tracksNum</th>
-              <th>rating</th>
+    
             </tr>
           </thead>
           <tbody>{this.exerciseList()}</tbody>
@@ -151,6 +135,7 @@ export default class PreLogon extends Component {
           </button>
         </div>
         <ol id="list"></ol>
+      
       </div>
     );
   }
