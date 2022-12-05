@@ -110,7 +110,7 @@ export default class ReviewPage extends Component {
             const item = document.createElement("li");
             item.appendChild(
               document.createTextNode(
-                `${e.userName} (${e.creationDate}): ${e.message}\n`
+                `${e.userName} (${e.creationDate}): ${e.message}   ${e.rating}\n`
               )
             );
             l.appendChild(item);
