@@ -61,7 +61,7 @@ function App() {
                 className="nav-link"
                 style={{ cursor: "pointer" }}
               >
-                review
+                Review
               </Link>
             ) : null}
           </li>
