@@ -92,7 +92,7 @@ export default class AdminLegal extends Component {
     return (
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
-          <h1 id="login">File Report </h1>
+          <h1 id="login">Takedown Request </h1>
           <form onSubmit={this.onReportSubmit}>
             <div id="loginpage" className="login">
               <input
@@ -145,7 +145,6 @@ export default class AdminLegal extends Component {
 
           <ol id="list"></ol>
         </div>
-
         <div id="form" className="formContainer">
           <br></br>
           <br></br>
@@ -185,9 +184,19 @@ export default class AdminLegal extends Component {
               </div>
             </div>
           </form>
-
           <ol id="list2"></ol>
         </div>
+        <br></br>
+        <br></br>
+        <h2>Workflow for DMCA & Tools instructions</h2>
+        <span>
+          1. Admin upload the updated DMCA notice & takedown policy <br></br>
+          2. Admin screen all the reviews / contents in the website
+          <br></br>
+          3. Admin takedown & inform the user if any content is violated the
+          policy
+        </span>{" "}
+        <br></br>
       </div>
     );
   }
