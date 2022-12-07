@@ -78,12 +78,12 @@ export default class Addreivew extends Component {
           <h1 id="login">Add review </h1>
           <p>You can only create 1 review for each playlist.</p>
           <form onSubmit={this.onSubmit}>
-            <div id="loginpage" class="login">
+            <div id="loginpage" className="login">
               <input
                 type="text"
                 name="reviews"
                 id="reviews-f"
-                class="reviews-f-input"
+                className="reviews-f-input"
                 placeholder="reviews"
                 value={this.state.review}
                 onChange={this.onChangeReview}
@@ -92,13 +92,13 @@ export default class Addreivew extends Component {
                 type="text"
                 name="rating"
                 id="rating-f"
-                class="rating-f-input"
+                className="rating-f-input"
                 placeholder="0-5"
                 value={this.state.rating}
                 onChange={this.onChangeRating}
               />
 
-              <div class="buttonContainer">
+              <div className="buttonContainer">
                 <input
                   type="submit"
                   value="Add Review"

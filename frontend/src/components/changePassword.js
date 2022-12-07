@@ -93,12 +93,12 @@ export default class ChangePassword extends Component {
         <div id="form" className="formContainer">
           <h1 id="login">Change Password </h1>
           <form onSubmit={this.onSubmit}>
-            <div id="loginpage" class="login">
+            <div id="loginpage" className="login">
               <input
                 type="password"
                 name="password"
                 id="password-f"
-                class="user-f-input"
+                className="user-f-input"
                 placeholder="New Password"
                 value={this.state.password}
                 onChange={this.onChangePassword}
@@ -107,12 +107,12 @@ export default class ChangePassword extends Component {
                 type="password"
                 name="password-confirm"
                 id="password-confirm"
-                class="user-f-input"
+                className="user-f-input"
                 placeholder="Confirm New Password"
                 value={this.state.confirmPassword}
                 onChange={this.onChangeConfirmPassword}
               />
-              <div class="buttonContainer">
+              <div className="buttonContainer">
                 <input
                   type="submit"
                   value="Submit"

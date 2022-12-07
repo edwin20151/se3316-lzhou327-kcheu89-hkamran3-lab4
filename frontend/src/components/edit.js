@@ -128,12 +128,12 @@ export default class CreateList extends Component {
         <div id="form" className="formContainer">
           <h1 id="login">Edit List </h1>
           <form onSubmit={this.onSubmit}>
-            <div id="loginpage" class="login">
+            <div id="loginpage" className="login">
               <input
                 type="text"
                 name="name"
                 id="name-f"
-                class="name-f-input"
+                className="name-f-input"
                 placeholder="name"
                 value={this.state.name}
                 onChange={this.onChangeName}
@@ -142,7 +142,7 @@ export default class CreateList extends Component {
                 type="text"
                 name="tracks"
                 id="tracks-f"
-                class="tracks-f-input"
+                className="tracks-f-input"
                 placeholder="tracks"
                 value={this.state.tracks}
                 onChange={this.onChangetracks}
@@ -152,13 +152,13 @@ export default class CreateList extends Component {
                 type="text"
                 name="description"
                 id="description-f"
-                class="description-f-input"
+                className="description-f-input"
                 placeholder="description"
                 value={this.state.description}
                 onChange={this.onChangedescription}
               />
 
-              <div class="buttonContainer">
+              <div className="buttonContainer">
                 <input type="submit" value="edit" className="btn btn-primary" />
               </div>
             </div>

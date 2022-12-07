@@ -8,13 +8,18 @@ export default class AdminLegal extends Component {
     this.onChangeRequest = this.onChangeRequest.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangedescription = this.onChangedescription.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeDocument = this.onChangeDocument.bind(this);
+    this.onChangeContent = this.onChangeContent.bind(this);
+    this.onReportSubmit = this.onReportSubmit.bind(this);
+    this.onPolicySubmit = this.onPolicySubmit.bind(this);
 
     this.state = {
       name: "",
       typeofrequest: "",
       Date: "",
       description: "",
+      document: "",
+      content: "",
     };
   }
 
@@ -41,9 +46,20 @@ export default class AdminLegal extends Component {
     });
   }
 
-  onSubmit(e) {
+  onChangeDocument(e) {
+    this.setState({
+      document: e.target.value,
+    });
+  }
+
+  onChangeContent(e) {
+    this.setState({
+      content: e.target.value,
+    });
+  }
+
+  onReportSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
     const report = {
       name: this.state.name,
       typeofrequest: this.state.typeofrequest,
@@ -53,8 +69,23 @@ export default class AdminLegal extends Component {
 
     axios.post("http://localhost:5500/report", report).then((res) => {
       console.log("saved successfully");
-      document.getElementById("Your request is filed.");
+      document.getElementById("list").innerText = "Your request is filed.";
     });
+  }
+
+  onPolicySubmit(e) {
+    e.preventDefault();
+    const policy = {
+      content: this.state.content,
+    };
+
+    axios
+      .post("http://localhost:5500/policies/" + this.state.document, policy)
+      .then((res) => {
+        console.log("saved successfully");
+        document.getElementById("list2").innerText =
+          "The policy is created / updated.";
+      });
   }
 
   render() {
@@ -62,13 +93,13 @@ export default class AdminLegal extends Component {
       <div id="background" className="backgroundContainer">
         <div id="form" className="formContainer">
           <h1 id="login">File Report </h1>
-          <form onSubmit={this.onSubmit}>
-            <div id="loginpage" class="login">
+          <form onSubmit={this.onReportSubmit}>
+            <div id="loginpage" className="login">
               <input
                 type="text"
                 name="name"
                 id="name-f"
-                class="name-f-input"
+                className="name-f-input"
                 placeholder="name"
                 value={this.state.name}
                 onChange={this.onChangeName}
@@ -77,7 +108,7 @@ export default class AdminLegal extends Component {
                 type="text"
                 name="request"
                 id="request-f"
-                class="request-f-input"
+                className="request-f-input"
                 placeholder="Type of Request"
                 value={this.state.typeofrequest}
                 onChange={this.onChangeRequest}
@@ -86,7 +117,7 @@ export default class AdminLegal extends Component {
                 type="date"
                 name="Date"
                 id="Date-f"
-                class="Date-f-input"
+                className="Date-f-input"
                 placeholder="Enter Date"
                 value={this.state.Date}
                 onChange={this.onChangeDate}
@@ -96,13 +127,13 @@ export default class AdminLegal extends Component {
                 type="text"
                 name="description"
                 id="description-f"
-                class="description-f-input"
+                className="description-f-input"
                 placeholder="description"
                 value={this.state.description}
                 onChange={this.onChangedescription}
               />
-
-              <div class="buttonContainer">
+              <br></br>
+              <div className="buttonContainer">
                 <input
                   type="submit"
                   value="Create"
@@ -113,6 +144,49 @@ export default class AdminLegal extends Component {
           </form>
 
           <ol id="list"></ol>
+        </div>
+
+        <div id="form" className="formContainer">
+          <br></br>
+          <br></br>
+          <h1> Create / Update Policy</h1>
+          <span>
+            If the selected policy doesn't exist, a new policy will be created
+          </span>
+          <br></br>
+          <form onSubmit={this.onPolicySubmit}>
+            <div id="loginpage" className="login">
+              <input
+                type="text"
+                name="documentName"
+                id="document-f"
+                className="document-f-input"
+                placeholder="Document Name"
+                value={this.state.document}
+                onChange={this.onChangeDocument}
+              />
+
+              <input
+                type="text"
+                name="content"
+                id="content-f"
+                className="content-f-input"
+                placeholder="Content"
+                value={this.state.content}
+                onChange={this.onChangeContent}
+              />
+              <br></br>
+              <div className="buttonContainer">
+                <input
+                  type="submit"
+                  value="Create / Update"
+                  className="btn btn-primary"
+                />
+              </div>
+            </div>
+          </form>
+
+          <ol id="list2"></ol>
         </div>
       </div>
     );

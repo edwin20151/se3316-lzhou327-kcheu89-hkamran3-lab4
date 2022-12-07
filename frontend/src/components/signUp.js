@@ -125,12 +125,12 @@ export default class SignUp extends Component {
         <div id="form" className="formContainer">
           <h1 id="login">Sign Up</h1>
           <form onSubmit={this.onSubmit}>
-            <div id="loginpage" class="login">
+            <div id="loginpage" className="login">
               <input
                 type="email"
                 name="email"
                 id="email-f"
-                class="email-f-input"
+                className="email-f-input"
                 placeholder="email"
                 value={this.state.email}
                 onChange={this.onChangeEmail}
@@ -139,7 +139,7 @@ export default class SignUp extends Component {
                 type="text"
                 name="username"
                 id="user-f"
-                class="user-f-input"
+                className="user-f-input"
                 placeholder="username"
                 value={this.state.username}
                 onChange={this.onChangeUsername}
@@ -148,12 +148,12 @@ export default class SignUp extends Component {
                 type="password"
                 name="password"
                 id="password-f"
-                class="user-f-input"
+                className="user-f-input"
                 placeholder="password"
                 value={this.state.password}
                 onChange={this.onChangePassword}
               />
-              <div class="buttonContainer">
+              <div className="buttonContainer">
                 <input
                   type="submit"
                   value="Create Account"

@@ -107,7 +107,7 @@ export default class Search extends Component {
               type="search"
               name="artist"
               id="artist-f"
-              class="artist-f-input"
+              className="artist-f-input"
               placeholder="artist"
               value={this.state.artist}
               onChange={this.onChangeartist}
@@ -116,7 +116,7 @@ export default class Search extends Component {
               type="search"
               name="genres"
               id="genres-f"
-              class="genres-f-input"
+              className="genres-f-input"
               placeholder="genres"
               value={this.state.genres}
               onChange={this.onChangegenres}
@@ -125,7 +125,7 @@ export default class Search extends Component {
               type="search"
               name="album"
               id="album-f"
-              class="album-f-input"
+              className="album-f-input"
               placeholder="album"
               value={this.state.album}
               onChange={this.onChangealbum}
@@ -134,12 +134,12 @@ export default class Search extends Component {
               type="search"
               name="track"
               id="track-f"
-              class="track-f-input"
+              className="track-f-input"
               placeholder="track"
               value={this.state.track}
               onChange={this.onChangetrack}
             />
-            <div class="Container">
+            <div className="Container">
               <input type="submit" value="search" className="btn btn-primary" />
             </div>
           </form>
