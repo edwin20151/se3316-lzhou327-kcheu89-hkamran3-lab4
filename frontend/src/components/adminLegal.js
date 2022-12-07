@@ -53,8 +53,7 @@ export default class AdminLegal extends Component {
 
     axios.post("http://localhost:5500/report", report).then((res) => {
       console.log("saved successfully");
-
-      // window.location = "/postlogon";
+      document.getElementById("Your request is filed.");
     });
   }
 

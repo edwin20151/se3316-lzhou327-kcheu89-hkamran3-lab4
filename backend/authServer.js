@@ -34,4 +34,7 @@ app.use("/report", legalRoute);
 const reviewRoute = require("./reviewroute.js");
 app.use("/reviews", reviewRoute);
 
+const policyRoute = require("./policyroute.js");
+app.use("/policies", policyRoute);
+
 app.listen(5500);
